@@ -1,1 +1,1 @@
-# net_core_2022
+# net_core_2022 clean architecture
