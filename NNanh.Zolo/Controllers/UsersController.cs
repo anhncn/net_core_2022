@@ -22,15 +22,18 @@ namespace NNanh.Zolo.Controllers
     public class UsersController : ApiControllerBase
     {
         private readonly ILogService _logger;
+        private readonly ICacheService _cache;
 
         private readonly ApplicationSetting _appSetting;
 
         private readonly IUserService _userService;
 
-        public UsersController(ILogService logger, IOptions<ApplicationSetting> options, IUserService userService)
+        public UsersController(ILogService logger, ICacheService cache,
+            IOptions<ApplicationSetting> options, IUserService userService)
         {
             _appSetting = options.Value;
             _userService = userService;
+            _cache = cache;
             _logger = logger;
             _logger.Info("NLog injected into UsersController");
         }
@@ -46,6 +49,20 @@ namespace NNanh.Zolo.Controllers
         public async Task<ActionResult<bool>> Create(BaseCommand<UserInt> command)
         {
             return await Mediator.Send(command);
+        }
+
+        [Route("set-cache")]
+        public async Task<IActionResult> SetCacheName()
+        {
+            await _cache.SetAsync("UserName", 60, "Phương");
+            return Ok();
+        }
+
+        [Route("get-cache")]
+        public async Task<IActionResult> GetCacheName()
+        {
+            var userName = await _cache.GetAsync<string>("UserName");
+            return Ok(userName);
         }
 
         [Route("user-name")]

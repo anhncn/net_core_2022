@@ -1,5 +1,6 @@
 ﻿
 using Application.Common.Interfaces.Services;
+using Infrastructure.Cache;
 using Infrastructure.DbContext;
 using Infrastructure.Logs;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +11,11 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<IApplicationDbContext, DapperDbContext>();
-            services.AddTransient<ILogService, NLogService>();
+            services.AddScoped<IApplicationDbContext, DapperDbContext>();
+
+            services.AddScoped<ILogService, NLogService>();
+
+            services.AddScoped<ICacheService, MemCacheService>();
             return services;
         }
     }
