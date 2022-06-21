@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Application.Common.Interfaces.Services
 {
-    internal interface ILogService
+    public interface ILogService
     {
+
     }
 }

@@ -13,14 +13,27 @@ namespace Application.Service
 #pragma warning disable IDE1006 // Naming Styles
 
         private readonly IApplicationDbContext _context;
-        private IDbSet<T> _dbSet { get; }
+
+        private IDbSet<T> _dbSet;
+
+        private IDbSet<T> DbSet
+        {
+            get
+            {
+                if (_dbSet == null)
+                {
+                    _dbSet = _context.Set<T>();
+                }
+
+                return _dbSet;
+            }
+        }
         public IApplicationDbContext Context { get { return _context; } }
 #pragma warning restore IDE1006 // Naming Styles
 
         public DbService(IApplicationDbContext context)
         {
             _context = context;
-            _dbSet = _context.Set<T>();
         }
 
         #region Created
@@ -33,7 +46,7 @@ namespace Application.Service
 
             if (await ValidateAdd(entity))
             {
-                result = await _dbSet.AddAsync(entity);
+                result = await DbSet.AddAsync(entity);
             }
 
             await AfterAdd(entity);
@@ -75,22 +88,22 @@ namespace Application.Service
 
         public Task<bool> RemoveAsync(string id)
         {
-            return _dbSet.RemoveAsync(id);
+            return DbSet.RemoveAsync(id);
         }
 
         public IQueryable<T> AsQueryable()
         {
-            return _dbSet.AsQueryable();
+            return DbSet.AsQueryable();
         }
 
         public Task<T> FindAsync(string id)
         {
-            return _dbSet.FindAsync(id);
+            return DbSet.FindAsync(id);
         }
 
         public Task<bool> UpdateAsync(T entity)
         {
-            return _dbSet.UpdateAsync(entity);
+            return DbSet.UpdateAsync(entity);
         }
     }
 }

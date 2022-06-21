@@ -1,4 +1,5 @@
 using Application;
+using Domain.Common;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,9 @@ namespace NNanh.Zolo
             services.AddInfrastructure();
 
             services.AddTransient<ExceptionHandlingMiddleware>();
+
+            // binding configure vào ApplicationSetting
+            services.Configure<ApplicationSetting>(Configuration);
 
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
