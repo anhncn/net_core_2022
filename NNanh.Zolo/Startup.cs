@@ -1,13 +1,16 @@
 using Application;
 using Domain.Common;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using NNanh.Zolo.MiddleWare;
 using System;
+using System.Text;
 
 namespace NNanh.Zolo
 {
@@ -23,14 +26,32 @@ namespace NNanh.Zolo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
+            var privateKey = "TrinhThanhPhuong";
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(privateKey))
+                };
+            });
 
+            services.AddApplication();
             services.AddInfrastructure();
 
             services.AddTransient<ExceptionHandlingMiddleware>();
 
             // binding configure vào ApplicationSetting
             services.Configure<ApplicationSetting>(Configuration);
+
 
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
@@ -56,6 +77,7 @@ namespace NNanh.Zolo
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

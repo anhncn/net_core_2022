@@ -5,17 +5,20 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Application.Common.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NNanh.Zolo.Controllers
 {
+    [Authorize]
     public class UsersController : ApiControllerBase
     {
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogService _logger;
 
-        public UsersController(ILogger<UsersController> logger)
+        public UsersController(ILogService logger)
         {
             _logger = logger;
-            _logger.LogInformation(1, "NLog injected into HomeController");
+            _logger.Info("NLog injected into UsersController");
         }
 
 
