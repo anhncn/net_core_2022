@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces.Services
 {
-    public interface IDbContextService<T> where T : AuditableEntity
+    public interface IDbService<T> where T : AuditableEntity
     {
         IApplicationDbContext Context { get; }
         Task<T> FindAsync(string id);

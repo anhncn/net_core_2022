@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Service
 {
-    public class DbContextService<T> : IDbContextService<T> where T : AuditableEntity
+    public class DbService<T> : IDbService<T> where T : AuditableEntity
     {
 #pragma warning disable IDE1006 // Naming Styles
 
@@ -17,7 +17,7 @@ namespace Application.Service
         public IApplicationDbContext Context { get { return _context; } }
 #pragma warning restore IDE1006 // Naming Styles
 
-        public DbContextService(IApplicationDbContext context)
+        public DbService(IApplicationDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

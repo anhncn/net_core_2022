@@ -23,7 +23,7 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
-            services.AddTransient(typeof(IDbContextService<>), typeof(DbContextService<>));
+            services.AddTransient(typeof(IDbService<>), typeof(DbService<>));
 
             services.ConfigureServicesRequestHandler<TodoItem>();
             services.ConfigureServicesRequestHandler<UserInt>();

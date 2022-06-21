@@ -9,7 +9,7 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<IApplicationDbContext, DapperApplicationContext>();
+            services.AddTransient<IApplicationDbContext, DapperDbContext>();
             return services;
         }
     }

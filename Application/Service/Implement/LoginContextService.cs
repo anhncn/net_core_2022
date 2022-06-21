@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace Application.Service
 {
-    //public class LoginContextService : DbContextService<User>, ILoginContextService
+    //public class LoginContextService : DbService<User>, ILoginService
     //{
-    //    public LoginContextService(IAppDbContext<User> context) : base(context)
+    //    public LoginContextService(IApplicationDbContext context) : base(context)
     //    {
 
     //    }
 
     //    public Task<bool> LoginAsync(User user)
     //    {
-    //        var findUser = _context.GetAll().FirstOrDefault(x => x.UserName == user.UserName && x.PassWord == user.PassWord);
+    //        var findUser = Context.Set<User>()
+    //            .AsQueryable()
+    //            .FirstOrDefault(x => x.UserName == user.UserName && x.PassWord == user.PassWord);
+
     //        if (findUser == null)
     //        {
     //            return Task.FromResult(false);

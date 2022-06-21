@@ -48,8 +48,8 @@ namespace Application
     public class BaseQueryHandler<T> : IRequestHandler<BaseQuery<T>, PaginatedList<T>> where T : AuditableEntity
     {
 
-        private readonly IDbContextService<T> _dbSerivce;
-        public BaseQueryHandler(IDbContextService<T> dbContextService)
+        private readonly IDbService<T> _dbSerivce;
+        public BaseQueryHandler(IDbService<T> dbContextService)
         {
             _dbSerivce = dbContextService;
         }

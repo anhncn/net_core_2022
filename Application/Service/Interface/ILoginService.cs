@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Application.Service.Interface
 {
-    public interface ILoginContextService : IDbContextService<UserInt>
+    public interface ILoginService : IDbService<User>
     {
-        Task<bool> LoginAsync(UserInt user);
+        Task<bool> LoginAsync(User user);
     }
 }

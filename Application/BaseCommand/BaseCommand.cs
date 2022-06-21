@@ -19,8 +19,8 @@ namespace Application.BaseCommand
     public class BaseCommandHandler<T> : IRequestHandler<BaseCommand<T>, bool> where T : AuditableEntity
     {
 
-        private readonly IDbContextService<T> _dbContextService;
-        public BaseCommandHandler(IDbContextService<T> dbContextService)
+        private readonly IDbService<T> _dbContextService;
+        public BaseCommandHandler(IDbService<T> dbContextService)
         {
             _dbContextService = dbContextService;
         }
