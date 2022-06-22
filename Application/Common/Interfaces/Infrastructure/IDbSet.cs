@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces.Services
 {
+    /// <summary>
+    /// DataProvider
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public interface IDbSet<TEntity>
     {
         Task<TEntity> FindAsync(string id);

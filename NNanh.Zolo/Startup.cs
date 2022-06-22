@@ -22,14 +22,13 @@ namespace NNanh.Zolo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddWebUI(Configuration);
 
             services.AddApplication();
 
             services.AddInfrastructure();
 
-            services.AddTransient<ExceptionHandlingMiddleware>();
+            services.AddScoped<ExceptionHandlingMiddleware>();
 
             // binding configure vào ApplicationSetting
             services.Configure<ApplicationSetting>(Configuration);
@@ -54,6 +53,8 @@ namespace NNanh.Zolo
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseWebUI(env);
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 

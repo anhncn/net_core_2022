@@ -10,27 +10,34 @@ namespace NNanh.Zolo.Services
 
         private readonly IHttpContextAccessor _httpContext;
 
+        public string UserId
+        {
+            get
+            {
+                if (_httpContext.HttpContext != null)
+                {
+                    return _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                }
+                return string.Empty;
+            }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                if (_httpContext.HttpContext != null)
+                {
+                    return _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                }
+                return string.Empty;
+            }
+        }
+
         public UserService(IHttpContextAccessor httpContext)
         {
             _httpContext = httpContext;
         }
 
-        public Task<string> GetUserId()
-        {
-            if(_httpContext.HttpContext != null)
-            {
-                return Task.FromResult(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name));
-            }
-            return Task.FromResult(string.Empty);
-        }
-
-        public Task<string> GetUserName()
-        {
-            if (_httpContext.HttpContext != null)
-            {
-                return Task.FromResult(_httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name));
-            }
-            return Task.FromResult(string.Empty);
-        }
     }
 }

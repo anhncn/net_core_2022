@@ -18,12 +18,12 @@ namespace Application
             //services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
-            services.AddTransient(typeof(IDbService<>), typeof(DbService<>));
+            services.AddScoped(typeof(IDbService<>), typeof(DbService<>));
 
             services.ConfigureServicesRequestHandler<TodoItem>();
             services.ConfigureServicesRequestHandler<UserInt>();
@@ -46,7 +46,7 @@ namespace Application
             var genericPaginatedList = typeof(PaginatedList<>).MakeGenericType(typeT);
             var serviceType = typeof(IRequestHandler<,>).MakeGenericType(genericBaseRequest, genericPaginatedList);
             var implementType = typeof(BaseQueryHandler<>).MakeGenericType(typeT);
-            services.AddTransient(serviceType, implementType);
+            services.AddScoped(serviceType, implementType);
         }
 
         public static void ConfigureServicesCommandHandler<T>(this IServiceCollection services)
@@ -57,7 +57,7 @@ namespace Application
             var genericBaseRequest = typeof(BaseCommand<>).MakeGenericType(typeT);
             var serviceType = typeof(IRequestHandler<,>).MakeGenericType(genericBaseRequest, typeof(bool));
             var implementType = typeof(BaseCommandHandler<>).MakeGenericType(typeT);
-            services.AddTransient(serviceType, implementType);
+            services.AddScoped(serviceType, implementType);
         }
     }
 }

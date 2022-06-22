@@ -68,7 +68,7 @@ namespace NNanh.Zolo.Controllers
         [Route("user-name")]
         public IActionResult GetUserName()
         {
-            return Ok(_userService.GetUserName());
+            return Ok(_userService.UserName);
         }
 
         [AllowAnonymous]

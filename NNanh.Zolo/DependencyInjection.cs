@@ -1,6 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Common;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +19,12 @@ namespace NNanh.Zolo
         public static IServiceCollection AddWebUI(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthenJwtBearer(configuration);
+
+            services
+                .AddHealthChecks()
+                .AddCheck<HealthCheckService>("health_check_radom")
+                .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
+            services.AddHealthChecksUI().AddInMemoryStorage();
 
             services.AddScoped<IUserService, UserService>();
 
@@ -41,6 +51,23 @@ namespace NNanh.Zolo
                 };
             });
             return services;
+        }
+
+
+        public static IApplicationBuilder UseWebUI(this IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecksUI();
+
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+
+            });
+
+            return app;
         }
     }
 }

@@ -3,8 +3,13 @@ namespace Domain.Common
 {
     public class ApplicationSetting
     {
-        public string MyProperty { get; set; }
+        public ConnectionStrings ConnectionStrings { get; set; }
         public Jwt Jwt { get; set; }
+    }
+
+    public class ConnectionStrings
+    {
+        public string DefaultConnection { get; set; }
     }
 
     public class Jwt

@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces.Services
 {
+    /// <summary>
+    /// Xây dựng nghiệp vụ chung
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IDbService<T> where T : AuditableEntity
     {
         IApplicationDbContext Context { get; }

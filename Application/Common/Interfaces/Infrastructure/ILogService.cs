@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Application.Common.Interfaces.Services
 {
+    /// <summary>
+    /// Log 
+    /// </summary>
     public interface ILogService
     {
         void Info(string message);

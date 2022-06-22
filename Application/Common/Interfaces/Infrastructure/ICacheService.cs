@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces.Services
 {
+    /// <summary>
+    /// Cache provider
+    /// </summary>
     public interface ICacheService
     {
         /// <summary>

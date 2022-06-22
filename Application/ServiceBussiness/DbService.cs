@@ -10,8 +10,6 @@ namespace Application.Service
 {
     public class DbService<T> : IDbService<T> where T : AuditableEntity
     {
-#pragma warning disable IDE1006 // Naming Styles
-
         private readonly IApplicationDbContext _context;
 
         private IDbSet<T> _dbSet;
@@ -29,7 +27,6 @@ namespace Application.Service
             }
         }
         public IApplicationDbContext Context { get { return _context; } }
-#pragma warning restore IDE1006 // Naming Styles
 
         public DbService(IApplicationDbContext context)
         {
