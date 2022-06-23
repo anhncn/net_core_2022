@@ -1,7 +1,9 @@
 ﻿using Application.BaseCommand;
 using Application.Common.Behaviours;
+using Application.Common.Interfaces.Application;
 using Application.Common.Interfaces.Services;
 using Application.Service;
+using Application.ServiceBussiness;
 using Domain;
 using Domain.Entities;
 using FluentValidation;
@@ -24,6 +26,7 @@ namespace Application
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
             services.AddScoped(typeof(IDbService<>), typeof(DbService<>));
+            services.AddScoped(typeof(IAppService), typeof(AppService));
 
             services.ConfigureServicesRequestHandler<TodoItem>();
             services.ConfigureServicesRequestHandler<UserInt>();
@@ -42,10 +45,10 @@ namespace Application
             // BaseQuery<T> : IRequest<PaginatedList<T>>
             // BaseQueryHandler<T> : IRequestHandler<BaseQuery<T>, PaginatedList<T>>
             var typeT = typeof(T);
-            var genericBaseRequest = typeof(BaseQuery<>).MakeGenericType(typeT);
+            var genericBaseRequest = typeof(BaseQueryCommand<>).MakeGenericType(typeT);
             var genericPaginatedList = typeof(PaginatedList<>).MakeGenericType(typeT);
             var serviceType = typeof(IRequestHandler<,>).MakeGenericType(genericBaseRequest, genericPaginatedList);
-            var implementType = typeof(BaseQueryHandler<>).MakeGenericType(typeT);
+            var implementType = typeof(BaseQueryCommandHandler<>).MakeGenericType(typeT);
             services.AddScoped(serviceType, implementType);
         }
 
@@ -54,9 +57,9 @@ namespace Application
             // BaseCommand<T> : IRequest<bool>
             // BaseCommandHandler<T> : IRequestHandler<BaseCommand<T>, bool>
             var typeT = typeof(T);
-            var genericBaseRequest = typeof(BaseCommand<>).MakeGenericType(typeT);
+            var genericBaseRequest = typeof(CreateBaseCommand<>).MakeGenericType(typeT);
             var serviceType = typeof(IRequestHandler<,>).MakeGenericType(genericBaseRequest, typeof(bool));
-            var implementType = typeof(BaseCommandHandler<>).MakeGenericType(typeT);
+            var implementType = typeof(CreateBaseCommandHandler<>).MakeGenericType(typeT);
             services.AddScoped(serviceType, implementType);
         }
     }

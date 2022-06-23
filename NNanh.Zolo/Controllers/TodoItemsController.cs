@@ -15,7 +15,7 @@ namespace NNanh.Zolo.Controllers
     public class TodoItemsController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<TodoItem>>> GetTodoItemsWithPagination([FromQuery] BaseQuery<TodoItem> query)
+        public async Task<ActionResult<PaginatedList<TodoItem>>> GetTodoItemsWithPagination([FromQuery] BaseQueryCommand<TodoItem> query)
         {
             return await Mediator.Send(query);
         }
