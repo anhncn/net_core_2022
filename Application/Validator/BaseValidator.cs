@@ -11,7 +11,7 @@ namespace Application.Validator
     {
     }
 
-    public class CreateTodoListCommandValidator : AbstractValidator<BaseQuery<TodoItem>>
+    public class CreateTodoListCommandValidator : AbstractValidator<BaseQueryCommand<TodoItem>>
     {
 
         public CreateTodoListCommandValidator()

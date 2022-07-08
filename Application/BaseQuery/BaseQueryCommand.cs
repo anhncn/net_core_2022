@@ -2,7 +2,6 @@
 using Application.Common.Mappings;
 using Domain.Common;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,22 +38,22 @@ namespace Application
         }
     }
 
-    public class BaseQuery<T> : IRequest<PaginatedList<T>>
+    public class BaseQueryCommand<T> : IRequest<PaginatedList<T>>
     {
         public string Title { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
     }
-    public class BaseQueryHandler<T> : IRequestHandler<BaseQuery<T>, PaginatedList<T>> where T : AuditableEntity
+    public class BaseQueryCommandHandler<T> : IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>> where T : AuditableEntity
     {
 
         private readonly IDbService<T> _dbSerivce;
-        public BaseQueryHandler(IDbService<T> dbContextService)
+        public BaseQueryCommandHandler(IDbService<T> dbContextService)
         {
             _dbSerivce = dbContextService;
         }
 
-        public async Task<PaginatedList<T>> Handle(BaseQuery<T> request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<T>> Handle(BaseQueryCommand<T> request, CancellationToken cancellationToken)
         {
             var paging = _dbSerivce.AsQueryable().Where(x => true).PaginatedList(request.PageIndex, request.PageSize);
 

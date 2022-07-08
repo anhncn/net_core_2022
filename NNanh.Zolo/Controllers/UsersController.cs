@@ -15,6 +15,7 @@ using System;
 using Microsoft.Extensions.Options;
 using Domain.Common;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Application;
 
 namespace NNanh.Zolo.Controllers
 {
@@ -23,30 +24,27 @@ namespace NNanh.Zolo.Controllers
     {
         private readonly ILogService _logger;
         private readonly ICacheService _cache;
-
         private readonly ApplicationSetting _appSetting;
-
         private readonly IUserService _userService;
 
-        public UsersController(ILogService logger, ICacheService cache,
-            IOptions<ApplicationSetting> options, IUserService userService)
+        public UsersController(IAppService appService)
         {
-            _appSetting = options.Value;
-            _userService = userService;
-            _cache = cache;
-            _logger = logger;
+            _appSetting = appService.ApplicationSetting;
+            _userService = appService.UserService;
+            _cache = appService.CacheService;
+            _logger = appService.LogService;
             _logger.Info("NLog injected into UsersController");
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<UserInt>>> GetWithPagination([FromQuery] BaseQuery<UserInt> query)
+        public async Task<ActionResult<PaginatedList<UserInt>>> GetWithPagination([FromQuery] BaseQueryCommand<UserInt> query)
         {
             return await Mediator.Send(query);
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(BaseCommand<UserInt> command)
+        public async Task<ActionResult<bool>> Create(CreateBaseCommand<UserInt> command)
         {
             return await Mediator.Send(command);
         }
