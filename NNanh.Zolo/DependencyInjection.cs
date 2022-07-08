@@ -56,16 +56,16 @@ namespace NNanh.Zolo
 
         public static IApplicationBuilder UseWebUI(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHealthChecksUI();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapHealthChecksUI();
 
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                {
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
+            //    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+            //    {
+            //        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //    });
 
-            });
+            //});
 
             return app;
         }

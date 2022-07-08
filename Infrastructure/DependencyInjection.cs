@@ -16,6 +16,12 @@ namespace Infrastructure
             services.AddScoped<ILogService, NLogService>();
 
             services.AddScoped<ICacheService, MemCacheService>();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+                options.InstanceName = "SampleInstance";
+            });
             return services;
         }
     }
