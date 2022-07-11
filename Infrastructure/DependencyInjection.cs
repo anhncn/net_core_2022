@@ -15,7 +15,8 @@ namespace Infrastructure
 
             services.AddScoped<ILogService, NLogService>();
 
-            services.AddScoped<ICacheService, MemCacheService>();
+            //services.AddScoped<ICacheService, MemCacheService>();
+            services.AddScoped<ICacheService, RedisCacheService>();
 
             services.AddStackExchangeRedisCache(options =>
             {

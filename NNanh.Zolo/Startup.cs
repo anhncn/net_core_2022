@@ -35,7 +35,10 @@ namespace NNanh.Zolo
             // binding configure vào ApplicationSetting
             services.Configure<ApplicationSetting>(Configuration);
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
 
             services.AddHttpContextAccessor();
         }

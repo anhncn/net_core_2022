@@ -20,9 +20,9 @@ namespace Infrastructure.Cache
             return Task.FromResult(entity);
         }
 
-        public Task SetAsync<TEntity>(string cacheKey, int times, TEntity entity)
+        public Task SetAsync<TEntity>(string cacheKey, double timeMinutes, TEntity entity)
         {
-            var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(times));
+            var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(timeMinutes));
 
             _memoryCache.Set(cacheKey, entity, cacheEntryOptions);
 
