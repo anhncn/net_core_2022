@@ -10,7 +10,14 @@ namespace Infrastructure.DbContext.EntityFramework
 {
     public class EntityframeWorkDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
+        private readonly ApplicationSetting _appSetting;
+
         public DbSet<UserSql> User { get; set; }
+
+        public EntityframeWorkDbContext(Microsoft.Extensions.Options.IOptions<ApplicationSetting> options)
+        {
+            _appSetting = options.Value;
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,7 +28,7 @@ namespace Infrastructure.DbContext.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Data Source=localhost,1439;Initial Catalog=TestDB;Persist Security Info=True;User ID=sa;Password=123456@Abc");
+            options.UseSqlServer(_appSetting.ConnectionStrings.SqlServerDocker);
         }
     }
 

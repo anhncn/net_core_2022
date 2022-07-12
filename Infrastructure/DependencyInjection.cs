@@ -13,7 +13,7 @@ namespace Infrastructure
         {
             services.AddScoped<EntityframeWorkDbContext>();
             services.AddScoped<IApplicationDbContext, EFDbContext>();
-
+            
             //services.AddScoped<IApplicationDbContext, DapperDbContext>();
 
             services.AddScoped<ILogService, NLogService>();

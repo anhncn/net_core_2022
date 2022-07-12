@@ -7,7 +7,7 @@ namespace Infrastructure.DbContext.EntityFramework
 {
     public class EFDbContext : IApplicationDbContext
     {
-        private readonly EntityframeWorkDbContext _dbContext;
+        private readonly Microsoft.EntityFrameworkCore.DbContext _dbContext;
         public EFDbContext(EntityframeWorkDbContext dbContext)
         {
             _dbContext = dbContext;
