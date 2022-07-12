@@ -17,37 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worker", "worker", "{6E42E4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schedule", "schedule", "{B6E68699-D602-4F9F-B49D-8A09BC15BF08}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{160FF640-A064-4E51-9A37-74B74F6E6984}"
-	ProjectSection(SolutionItems) = preProject
-		read-me-docker.txt = read-me-docker.txt
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{82D48979-4E7F-405D-84A5-811FD30C0404}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql-server", "sql-server", "{0836ABD6-4356-4F5B-89D7-B7FD1278792B}"
-	ProjectSection(SolutionItems) = preProject
-		sql-server-compose.yml = sql-server-compose.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "elk", "elk", "{B920CBC1-FD41-4EBF-BF54-A923C70AA87C}"
-	ProjectSection(SolutionItems) = preProject
-		elk-full.yml = elk-full.yml
-		elk.yml = elk.yml
-		read-me.txt = read-me.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "logstash", "logstash", "{8066DF56-1588-45D3-B9FD-110739E5916C}"
-	ProjectSection(SolutionItems) = preProject
-		logstash.yml = logstash.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "log", "log", "{ACF8C196-5855-4F46-A9E7-33929DA26B35}"
-	ProjectSection(SolutionItems) = preProject
-		logstash.conf = logstash.conf
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kibana", "kibana", "{3CD988F2-12E7-43D6-B50E-126A5792F82B}"
-	ProjectSection(SolutionItems) = preProject
-		kibana.yml = kibana.yml
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docker", "Docker\Docker.csproj", "{3528888A-F430-47F4-AF03-4F9386DBB1D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +43,10 @@ Global
 		{B4F35824-F026-4C46-89FC-BBFDC17B8781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F35824-F026-4C46-89FC-BBFDC17B8781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4F35824-F026-4C46-89FC-BBFDC17B8781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,11 +55,7 @@ Global
 		{6C975FAB-CD43-432D-9FA7-20036E0D929F} = {FED2702B-58E5-4AB8-AB86-9893A84C2400}
 		{2459200B-25BD-4866-BCEE-0346BFB49499} = {FED2702B-58E5-4AB8-AB86-9893A84C2400}
 		{B4F35824-F026-4C46-89FC-BBFDC17B8781} = {FED2702B-58E5-4AB8-AB86-9893A84C2400}
-		{0836ABD6-4356-4F5B-89D7-B7FD1278792B} = {160FF640-A064-4E51-9A37-74B74F6E6984}
-		{B920CBC1-FD41-4EBF-BF54-A923C70AA87C} = {160FF640-A064-4E51-9A37-74B74F6E6984}
-		{8066DF56-1588-45D3-B9FD-110739E5916C} = {B920CBC1-FD41-4EBF-BF54-A923C70AA87C}
-		{ACF8C196-5855-4F46-A9E7-33929DA26B35} = {8066DF56-1588-45D3-B9FD-110739E5916C}
-		{3CD988F2-12E7-43D6-B50E-126A5792F82B} = {B920CBC1-FD41-4EBF-BF54-A923C70AA87C}
+		{3528888A-F430-47F4-AF03-4F9386DBB1D0} = {82D48979-4E7F-405D-84A5-811FD30C0404}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0E26274-77C2-47EF-930A-DF5900653A95}
