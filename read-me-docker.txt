@@ -1,0 +1,27 @@
+﻿+ lệnh docker chung
+- lấy các container
+docker ps -a 
+- lấy image
+docker images
+- xóa image
+docker rmi image-names
+- xóa container
+docker rm -f container-name
+- truy cập vào container
+docker exec -it container-name "bash"
+- thoát truy cập container
+ctrl + P + Q
+
+
+
+
++ run docker-compose
+docker-compose -f sql-server-compose.yml
+- sql cmd trong container
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "123456@Abc"
+- sql cmd ngoài container
+sqlcmd -S localhost,1439 -U SA -P "123456@Abc"
+
++ run redis 
+-- -v mount volume --appendonly để dữ liệu lưu vào ổ cứng khi lấy ra
+docker run -d --name redis -p 6379:6379 -v D:\docker\elk\redis:/data redis --appendonly yes

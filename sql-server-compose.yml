@@ -1,0 +1,14 @@
+version: '2'
+services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sql-server
+    ports:
+      - "1439:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "123456@Abc"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - D:\docker\volumes\sql-server\data:/var/opt/mssql/data
+      - D:\docker\volumes\sql-server\log:/var/opt/mssql/log
+      - D:\docker\volumes\sql-server\secrets:/var/opt/mssql/secrets
