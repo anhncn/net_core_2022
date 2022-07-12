@@ -4,7 +4,6 @@ using Application.BaseCommand;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Application.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,14 +11,13 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System;
-using Microsoft.Extensions.Options;
 using Domain.Common;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Application;
 
 namespace NNanh.Zolo.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class UsersController : ApiControllerBase
     {
         private readonly ILogService _logger;
@@ -44,7 +42,7 @@ namespace NNanh.Zolo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(CreateBaseCommand<UserInt> command)
+        public async Task<ActionResult<bool>> Create(CreateBaseCommand<UserSql> command)
         {
             return await Mediator.Send(command);
         }

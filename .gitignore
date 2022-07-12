@@ -1,5 +1,7 @@
 /.vs
 
+/Docker/bin
+/Docker/obj
 /Application/bin
 /Application/obj
 /Domain/bin

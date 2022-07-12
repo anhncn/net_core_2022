@@ -1,7 +1,7 @@
 ﻿
 using Application.Common.Interfaces.Services;
 using Infrastructure.Cache;
-using Infrastructure.DbContext;
+using Infrastructure.DbContext.EntityFramework;
 using Infrastructure.Logs;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +11,10 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddScoped<IApplicationDbContext, DapperDbContext>();
+            services.AddScoped<EntityframeWorkDbContext>();
+            services.AddScoped<IApplicationDbContext, EFDbContext>();
+
+            //services.AddScoped<IApplicationDbContext, DapperDbContext>();
 
             services.AddScoped<ILogService, NLogService>();
 

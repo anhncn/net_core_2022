@@ -30,6 +30,7 @@ namespace Application
 
             services.ConfigureServicesRequestHandler<TodoItem>();
             services.ConfigureServicesRequestHandler<UserInt>();
+            services.ConfigureServicesRequestHandler<UserSql>();
 
             return services;
         }
