@@ -23,6 +23,7 @@ namespace NNanh.Zolo
             services
                 .AddHealthChecks()
                 .AddCheck<HealthCheckService>("health_check_radom")
+                .AddRedis(configuration.Get<ApplicationSetting>().ConnectionStrings.Redis)
                 .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
             services.AddHealthChecksUI().AddInMemoryStorage();
 

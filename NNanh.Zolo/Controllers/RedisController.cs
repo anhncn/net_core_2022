@@ -47,7 +47,7 @@ namespace NNanh.Zolo.Controllers
 
             if (person == null)
             {
-                double time = (double)10 / 60;
+                double time = 20;
                 await _cacheService.SetAsync(cacheKey, time, new Person() { Name = DateTime.Now.ToString() });
 
                 person = await _cacheService.GetAsync<Person>(cacheKey);
