@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Cache
 {
+    /// <summary>
+    /// -v mount volume --appendonly để dữ liệu lưu vào ổ cứng khi lấy ra
+    /// docker run -d --name redis -p 6379:6379 -v D:\docker\elk\redis:/data redis --appendonly yes
+    /// </summary>
     public class RedisCacheService : ICacheService
     {
 
