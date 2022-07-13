@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace NNanh.Zolo.Controllers
 {
+    /// <summary>
+    /// Gốc chính
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public abstract class ApiControllerBase : ControllerBase

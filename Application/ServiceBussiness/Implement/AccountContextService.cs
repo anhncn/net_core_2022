@@ -33,10 +33,9 @@ namespace Application.ServiceBussiness.Implement
         private Task<bool> CheckExistAccount(Account account)
         {
             var hashPassword = _tokenService.HashPassword(account.Password);
-            var findUser = Context.Set<Account>()
-                .AsQueryable()
-                .Where(rec => rec.UserName == account.UserName && hashPassword == rec.Password)
-                .FirstOrDefault();
+            var findUser = Context.Set<Account>().AsQueryable()
+                .FirstOrDefault(rec => rec.UserName == account.UserName && rec.Password == hashPassword);
+
             if (findUser == null) return Task.FromResult(false);
 
             return Task.FromResult(true);
@@ -68,8 +67,7 @@ namespace Application.ServiceBussiness.Implement
 
         private Task<bool> CheckExistUserName(string userName)
         {
-            var findUser = Context.Set<Account>()
-                .AsQueryable()
+            var findUser = Context.Set<Account>().AsQueryable()
                 .FirstOrDefault(rec => rec.UserName == userName);
 
             if (findUser == null) return Task.FromResult(false);

@@ -33,7 +33,6 @@ namespace Application
 
             services.AddScoped<IAccountService, AccountContextService>();
 
-            services.AddRequestHandler<TodoItem>();
             services.AddRequestHandler<UserSql>();
             services.AddRequestHandler<Account>();
 
@@ -44,6 +43,8 @@ namespace Application
         {
             services.AddTransient<IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>>, BaseQueryCommandHandler<T>>();
             services.AddTransient<IRequestHandler<CreateBaseCommand<T>, ResponseResult>, CreateBaseCommandHandler<T>>();
+            services.AddTransient<IRequestHandler<UpdateBaseCommand<T>, ResponseResult>, UpdateBaseCommandHandler<T>>();
+            services.AddTransient<IRequestHandler<DeleteBaseCommand<T>, ResponseResult>, DeleteBaseCommandHandler<T>>();
         }
     }
 }
