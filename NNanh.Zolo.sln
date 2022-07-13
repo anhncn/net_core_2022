@@ -19,7 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schedule", "schedule", "{B6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{82D48979-4E7F-405D-84A5-811FD30C0404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docker", "Docker\Docker.csproj", "{3528888A-F430-47F4-AF03-4F9386DBB1D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Docker", "Docker\Docker.csproj", "{3528888A-F430-47F4-AF03-4F9386DBB1D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external-service", "external-service", "{962D3640-2947-4A8D-BCB1-1977767D356A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC.Client", "ExternalService\gRPC.Client\gRPC.Client.csproj", "{C1EE77F9-C1F8-4620-B3B4-AB7E88572DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,10 @@ Global
 		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3528888A-F430-47F4-AF03-4F9386DBB1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EE77F9-C1F8-4620-B3B4-AB7E88572DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EE77F9-C1F8-4620-B3B4-AB7E88572DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EE77F9-C1F8-4620-B3B4-AB7E88572DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EE77F9-C1F8-4620-B3B4-AB7E88572DFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +64,7 @@ Global
 		{2459200B-25BD-4866-BCEE-0346BFB49499} = {FED2702B-58E5-4AB8-AB86-9893A84C2400}
 		{B4F35824-F026-4C46-89FC-BBFDC17B8781} = {FED2702B-58E5-4AB8-AB86-9893A84C2400}
 		{3528888A-F430-47F4-AF03-4F9386DBB1D0} = {82D48979-4E7F-405D-84A5-811FD30C0404}
+		{C1EE77F9-C1F8-4620-B3B4-AB7E88572DFD} = {962D3640-2947-4A8D-BCB1-1977767D356A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0E26274-77C2-47EF-930A-DF5900653A95}

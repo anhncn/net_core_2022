@@ -33,11 +33,24 @@ namespace Infrastructure.DbContext.EntityFramework
         }
     }
 
+    public class EFDbSetFactory
+    {
+        public static IDbSet<TEntity> GetCurrent<TEntity>(DbSet<TEntity> dbSet) where TEntity : AuditableEntity
+        {
+            return EFDbSet<TEntity>.Instance(dbSet);
+        }
+    }
+
     public class EFDbSet<TEntity> : IDbSet<TEntity> where TEntity : AuditableEntity
     {
         private readonly DbSet<TEntity> _dbSet;
 
-        public EFDbSet(DbSet<TEntity> dbSet)
+        public static EFDbSet<TEntity> Instance(DbSet<TEntity> dbSet)
+        {
+            return new EFDbSet<TEntity>(dbSet);
+        }
+
+        private EFDbSet(DbSet<TEntity> dbSet)
         {
             _dbSet = dbSet;
         }

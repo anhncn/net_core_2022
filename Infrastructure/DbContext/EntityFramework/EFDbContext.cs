@@ -20,7 +20,7 @@ namespace Infrastructure.DbContext.EntityFramework
 
         public IDbSet<TEntity> Set<TEntity>() where TEntity : AuditableEntity
         {
-            return new EFDbSet<TEntity>(_dbContext.Set<TEntity>());
+            return EFDbSetFactory.GetCurrent(_dbContext.Set<TEntity>());
         }
     }
 }

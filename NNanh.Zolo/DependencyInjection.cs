@@ -13,18 +13,21 @@ using System.Text;
 
 namespace NNanh.Zolo
 {
+    /// <summary>
+    /// swagger: https://www.c-sharpcorner.com/blogs/implement-swagger-in-asp-net-core-31-web-api
+    /// </summary>
     public static class DependencyInjection
     {
         public static IServiceCollection AddWebUI(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthenJwtBearer(configuration);
 
-            services
-                .AddHealthChecks()
-                .AddCheck<HealthCheckService>("health_check_radom")
-                .AddRedis(configuration.Get<ApplicationSetting>().ConnectionStrings.Redis)
-                .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
-            services.AddHealthChecksUI().AddInMemoryStorage();
+            //services
+            //    .AddHealthChecks()
+            //    .AddCheck<HealthCheckService>("health_check_radom")
+            //    .AddRedis(configuration.Get<ApplicationSetting>().ConnectionStrings.Redis)
+            //    .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
+            //services.AddHealthChecksUI().AddInMemoryStorage();
 
             services.AddSwaggerGen();
             services.AddSwaggerGen(options =>

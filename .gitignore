@@ -1,5 +1,7 @@
 /.vs
 
+/ExternalService/gRPC.Client/bin
+/ExternalService/gRPC.Client/obj
 /Docker/bin
 /Docker/obj
 /Application/bin
