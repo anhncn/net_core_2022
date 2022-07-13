@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Security\" />
+    <Folder Include="MediatorHandler\Account\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

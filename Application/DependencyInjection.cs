@@ -3,8 +3,11 @@ using Application.Common.Behaviours;
 using Application.Common.Interfaces.Application;
 using Application.Common.Interfaces.Services;
 using Application.Service;
+using Application.Service.Interface;
 using Application.ServiceBussiness;
+using Application.ServiceBussiness.Implement;
 using Domain;
+using Domain.Common;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -26,42 +29,21 @@ namespace Application
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
             services.AddScoped(typeof(IDbService<>), typeof(DbService<>));
-            services.AddScoped(typeof(IAppService), typeof(AppService));
+            services.AddScoped<IAppService, AppService>();
 
-            services.ConfigureServicesRequestHandler<TodoItem>();
-            services.ConfigureServicesRequestHandler<UserInt>();
-            services.ConfigureServicesRequestHandler<UserSql>();
+            services.AddScoped<IAccountService, AccountContextService>();
+
+            services.AddRequestHandler<TodoItem>();
+            services.AddRequestHandler<UserSql>();
+            services.AddRequestHandler<Account>();
 
             return services;
         }
 
-        public static void ConfigureServicesRequestHandler<T>(this IServiceCollection services)
+        public static void AddRequestHandler<T>(this IServiceCollection services) where T : AuditableEntity
         {
-            services.ConfigureServicesQueryHandler<T>();
-            services.ConfigureServicesCommandHandler<T>();
-        }
-
-        public static void ConfigureServicesQueryHandler<T>(this IServiceCollection services)
-        {
-            // BaseQuery<T> : IRequest<PaginatedList<T>>
-            // BaseQueryHandler<T> : IRequestHandler<BaseQuery<T>, PaginatedList<T>>
-            var typeT = typeof(T);
-            var genericBaseRequest = typeof(BaseQueryCommand<>).MakeGenericType(typeT);
-            var genericPaginatedList = typeof(PaginatedList<>).MakeGenericType(typeT);
-            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(genericBaseRequest, genericPaginatedList);
-            var implementType = typeof(BaseQueryCommandHandler<>).MakeGenericType(typeT);
-            services.AddScoped(serviceType, implementType);
-        }
-
-        public static void ConfigureServicesCommandHandler<T>(this IServiceCollection services)
-        {
-            // BaseCommand<T> : IRequest<bool>
-            // BaseCommandHandler<T> : IRequestHandler<BaseCommand<T>, bool>
-            var typeT = typeof(T);
-            var genericBaseRequest = typeof(CreateBaseCommand<>).MakeGenericType(typeT);
-            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(genericBaseRequest, typeof(bool));
-            var implementType = typeof(CreateBaseCommandHandler<>).MakeGenericType(typeT);
-            services.AddScoped(serviceType, implementType);
+            services.AddTransient<IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>>, BaseQueryCommandHandler<T>>();
+            services.AddTransient<IRequestHandler<CreateBaseCommand<T>, ResponseResult>, CreateBaseCommandHandler<T>>();
         }
     }
 }

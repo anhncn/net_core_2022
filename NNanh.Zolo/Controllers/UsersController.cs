@@ -36,13 +36,13 @@ namespace NNanh.Zolo.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<UserInt>>> GetWithPagination([FromQuery] BaseQueryCommand<UserInt> query)
+        public async Task<ActionResult<PaginatedList<UserSql>>> GetWithPagination([FromQuery] BaseQueryCommand<UserSql> query)
         {
             return await Mediator.Send(query);
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(CreateBaseCommand<UserSql> command)
+        public async Task<ActionResult<ResponseResult>> Create(CreateBaseCommand<UserSql> command)
         {
             return await Mediator.Send(command);
         }
@@ -67,38 +67,5 @@ namespace NNanh.Zolo.Controllers
             return Ok(_userService.UserName);
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("authenticate")]
-        public IActionResult Authenticate()
-        {
-            var token = AuthenticatePrivate();
-
-            if (token == null)
-            {
-                return Unauthorized();
-            }
-
-            return Ok(token);
-        }
-
-        private JwtTokens AuthenticatePrivate()
-        {
-            // Else we generate JSON Web Token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.UTF8.GetBytes(_appSetting.Jwt.Key);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, "Ngọc Anh")
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(10),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new JwtTokens { Token = tokenHandler.WriteToken(token) };
-
-        }
     }
 }

@@ -15,13 +15,13 @@ namespace Domain.Entities
         public string PassWord { get; set; }
     }
 
-    [Dapper.Contrib.Extensions.Table("dbo.[UserInt]")]
-    public class UserInt : AuditableEntity
-    {
-        [Dapper.Contrib.Extensions.Key]
-        [System.ComponentModel.DataAnnotations.Key]
-        public int Id { get; set; }
+    //[Dapper.Contrib.Extensions.Table("dbo.[UserInt]")]
+    //public class UserInt : AuditableEntity
+    //{
+    //    [Dapper.Contrib.Extensions.Key]
+    //    [System.ComponentModel.DataAnnotations.Key]
+    //    public int Id { get; set; }
 
-        public string UserName { get; set; }
-    }
+    //    public string UserName { get; set; }
+    //}
 }

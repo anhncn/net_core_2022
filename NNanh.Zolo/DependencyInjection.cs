@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.WebUI;
 using Domain.Common;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,6 +28,7 @@ namespace NNanh.Zolo
                 .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
             services.AddHealthChecksUI().AddInMemoryStorage();
 
+            services.AddScoped<ITokenAuthService, TokenAuthService>();
             services.AddScoped<IUserService, UserService>();
 
             return services;

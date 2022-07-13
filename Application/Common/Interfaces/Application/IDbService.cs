@@ -9,7 +9,7 @@ namespace Application.Common.Interfaces.Services
     /// Xây dựng nghiệp vụ chung
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IDbService<T> where T : AuditableEntity
+    public interface IDbService<T>
     {
         IApplicationDbContext Context { get; }
         Task<T> FindAsync(string id);

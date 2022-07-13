@@ -13,6 +13,7 @@ namespace Infrastructure.DbContext.EntityFramework
         private readonly ApplicationSetting _appSetting;
 
         public DbSet<UserSql> User { get; set; }
+        public DbSet<Account> Account { get; set; }
 
         public EntityframeWorkDbContext(Microsoft.Extensions.Options.IOptions<ApplicationSetting> options)
         {
