@@ -22,7 +22,7 @@ namespace Application.ServiceBussiness.Implement
         #region Login
         public async Task<ResponseResult> LoginAsync(Account account)
         {
-            if (!await CheckExistAccount(account))
+            if (!await ExistAccount(account))
             {
                 throw new Exception("Wrong UserName or Password!");
             }
@@ -30,15 +30,13 @@ namespace Application.ServiceBussiness.Implement
             return ResponseResult.Instance(_tokenService.Generate(account.UserName));
         }
 
-        private Task<bool> CheckExistAccount(Account account)
+        private Task<bool> ExistAccount(Account account)
         {
             var hashPassword = _tokenService.HashPassword(account.Password);
             var findUser = Context.Set<Account>().AsQueryable()
                 .FirstOrDefault(rec => rec.UserName == account.UserName && rec.Password == hashPassword);
 
-            if (findUser == null) return Task.FromResult(false);
-
-            return Task.FromResult(true);
+            return Task.FromResult(findUser != null);
         }
 
         #endregion
@@ -51,7 +49,7 @@ namespace Application.ServiceBussiness.Implement
             if (string.IsNullOrEmpty(account.UserName)) throw new ArgumentNullException(nameof(account.UserName));
             if (string.IsNullOrEmpty(account.Password)) throw new ArgumentNullException(nameof(account.Password));
 
-            if (await CheckExistUserName(account.UserName))
+            if (await ExistUserName(account.UserName))
             {
                 throw new Exception($"UserName {account.UserName} is existed!");
             }
@@ -65,7 +63,7 @@ namespace Application.ServiceBussiness.Implement
             return ResponseResult.Instance(result);
         }
 
-        private Task<bool> CheckExistUserName(string userName)
+        private Task<bool> ExistUserName(string userName)
         {
             var findUser = Context.Set<Account>().AsQueryable()
                 .FirstOrDefault(rec => rec.UserName == userName);

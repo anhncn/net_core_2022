@@ -44,16 +44,15 @@ namespace Application
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
     }
-    public class BaseQueryCommandHandler<T> : IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>> where T : AuditableEntity
+    public class BaseQueryCommandHandler<TEntity> : IRequestHandler<BaseQueryCommand<TEntity>, PaginatedList<TEntity>>
     {
-
-        private readonly IDbService<T> _dbSerivce;
-        public BaseQueryCommandHandler(IDbService<T> dbContextService)
+        private readonly IDbService<TEntity> _dbSerivce;
+        public BaseQueryCommandHandler(IDbService<TEntity> dbContextService)
         {
             _dbSerivce = dbContextService;
         }
 
-        public async Task<PaginatedList<T>> Handle(BaseQueryCommand<T> request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<TEntity>> Handle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
         {
             var paging = _dbSerivce.AsQueryable().Where(x => true).PaginatedList(request.PageIndex, request.PageSize);
 

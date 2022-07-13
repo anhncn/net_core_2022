@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Application.BaseCommand
 {
     public class DeleteBaseCommand<TEntity> : BaseExcuteCommand<TEntity> { }
-    public class DeleteBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, DeleteBaseCommand<TEntity>> where TEntity : AuditableEntity
+    public class DeleteBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, DeleteBaseCommand<TEntity>>
     {
         public DeleteBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
 

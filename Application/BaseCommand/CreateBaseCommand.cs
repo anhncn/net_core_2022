@@ -8,7 +8,6 @@ namespace Application.BaseCommand
     public class CreateBaseCommand<TEntity> : BaseExcuteCommand<TEntity> { }
 
     public class CreateBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, CreateBaseCommand<TEntity>> 
-        where TEntity : AuditableEntity
     {
         public CreateBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
 

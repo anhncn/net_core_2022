@@ -5,15 +5,8 @@ using System.Threading.Tasks;
 
 namespace NNanh.Zolo.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AccountsController : ApiControllerBase
     {
-        //public AccountsController(IAppService appService)
-        //{
-
-        //}
-
         [HttpPost("login")]
         public async Task<ActionResult<ResponseResult>> Login(LoginAccountCommand command)
         {

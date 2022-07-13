@@ -25,3 +25,6 @@ sqlcmd -S localhost,1439 -U SA -P "123456@Abc"
 + run redis 
 -- -v mount volume --appendonly để dữ liệu lưu vào ổ cứng khi lấy ra
 docker run -d --name redis -p 6379:6379 -v D:\docker\volumes\redis:/data redis --appendonly yes
+
++ run app-stack tất cả
+docker-compose -f app-stack.yml up

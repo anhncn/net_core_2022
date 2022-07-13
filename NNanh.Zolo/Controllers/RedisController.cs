@@ -1,15 +1,11 @@
 ﻿using Application.Common.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Threading.Tasks;
 
 namespace NNanh.Zolo.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RedisController : ControllerBase
+    public class RedisController : ApiControllerBase
     {
         // https://www.dotnetcoban.com/2019/09/redis-in-asp-dotnet-core.html
         private readonly ICacheService _cacheService;

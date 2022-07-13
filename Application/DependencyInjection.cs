@@ -39,7 +39,7 @@ namespace Application
             return services;
         }
 
-        public static void AddRequestHandler<T>(this IServiceCollection services) where T : AuditableEntity
+        public static void AddRequestHandler<T>(this IServiceCollection services)
         {
             services.AddTransient<IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>>, BaseQueryCommandHandler<T>>();
             services.AddTransient<IRequestHandler<CreateBaseCommand<T>, ResponseResult>, CreateBaseCommandHandler<T>>();
