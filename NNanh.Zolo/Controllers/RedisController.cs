@@ -34,28 +34,5 @@ namespace NNanh.Zolo.Controllers
 
             return result;
         }
-
-        [HttpGet("person")]
-        public async Task<Person> GetPerson()
-        {
-            var cacheKey = "TheTimePerson";
-            var person = await _cacheService.GetAsync<Person>(cacheKey);
-
-            if (person == null)
-            {
-                double time = 20;
-                await _cacheService.SetAsync(cacheKey, time, new Person() { Name = DateTime.Now.ToString() });
-
-                person = await _cacheService.GetAsync<Person>(cacheKey);
-            }
-
-            return person;
-        }
-
-    }
-
-    public class Person
-    {
-        public string Name { get; set; }
     }
 }

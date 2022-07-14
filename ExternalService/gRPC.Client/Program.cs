@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace gRPC.Client
 {
+    /// <summary>
+    /// Các kiểu dữ liệu trong file .proto 
+    /// https://docs.microsoft.com/en-us/aspnet/core/grpc/protobuf?view=aspnetcore-3.1
+    /// </summary>
     class Program
     {
         static async Task Main(string[] args)

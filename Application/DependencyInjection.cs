@@ -6,12 +6,12 @@ using Application.Service;
 using Application.Service.Interface;
 using Application.ServiceBussiness;
 using Application.ServiceBussiness.Implement;
-using Domain;
 using Domain.Common;
-using Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Application
@@ -33,18 +33,66 @@ namespace Application
 
             services.AddScoped<IAccountService, AccountContextService>();
 
-            services.AddRequestHandler<UserSql>();
-            services.AddRequestHandler<Account>();
+            services.AddRequestsHandler(AppDomain.CurrentDomain.GetAssemblies().First(a => a.FullName.Contains(nameof(Domain))));
 
             return services;
         }
 
-        public static void AddRequestHandler<T>(this IServiceCollection services)
+        private static void AddRequestsHandler(this IServiceCollection services, Assembly assembly)
         {
-            services.AddTransient<IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>>, BaseQueryCommandHandler<T>>();
-            services.AddTransient<IRequestHandler<CreateBaseCommand<T>, ResponseResult>, CreateBaseCommandHandler<T>>();
-            services.AddTransient<IRequestHandler<UpdateBaseCommand<T>, ResponseResult>, UpdateBaseCommandHandler<T>>();
-            services.AddTransient<IRequestHandler<DeleteBaseCommand<T>, ResponseResult>, DeleteBaseCommandHandler<T>>();
+            if(assembly == null) throw new ArgumentNullException(nameof(assembly));
+
+            var types = assembly.GetExportedTypes().Where(t => t.BaseType == typeof(AuditableEntity));
+
+            foreach (var type in types)
+            {
+                services.AddQueryHandler(type);
+                services.AddCreateHandler(type);
+                services.AddUpdateHandler(type);
+                services.AddDeleteHandler(type);
+            }
         }
+
+        public static void AddQueryHandler(this IServiceCollection services, Type typeT)
+        {
+            var iRequest = typeof(BaseQueryCommand<>).MakeGenericType(typeT);
+            var gPaginatedList = typeof(PaginatedList<>).MakeGenericType(typeT);
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, gPaginatedList);
+            var implementType = typeof(BaseQueryCommandHandler<>).MakeGenericType(typeT);
+            services.AddTransient(serviceType, implementType);
+        }
+
+        public static void AddCreateHandler(this IServiceCollection services, Type typeT)
+        {
+            var iRequest = typeof(CreateBaseCommand<>).MakeGenericType(typeT);
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResult));
+            var implementType = typeof(CreateBaseCommandHandler<>).MakeGenericType(typeT);
+            services.AddTransient(serviceType, implementType);
+        }
+
+        public static void AddUpdateHandler(this IServiceCollection services, Type typeT)
+        {
+            var iRequest = typeof(UpdateBaseCommand<>).MakeGenericType(typeT);
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResult));
+            var implementType = typeof(UpdateBaseCommandHandler<>).MakeGenericType(typeT);
+            services.AddTransient(serviceType, implementType);
+        }
+
+        public static void AddDeleteHandler(this IServiceCollection services, Type typeT)
+        {
+            var iRequest = typeof(DeleteBaseCommand<>).MakeGenericType(typeT);
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResult));
+            var implementType = typeof(DeleteBaseCommandHandler<>).MakeGenericType(typeT);
+            services.AddTransient(serviceType, implementType);
+        }
+
+
+        //public static void AddRequestHandler<T>(this IServiceCollection services)
+        //{
+        //    services.AddTransient<IRequestHandler<BaseQueryCommand<T>, PaginatedList<T>>, BaseQueryCommandHandler<T>>();
+        //    services.AddTransient<IRequestHandler<CreateBaseCommand<T>, ResponseResult>, CreateBaseCommandHandler<T>>();
+        //    services.AddTransient<IRequestHandler<UpdateBaseCommand<T>, ResponseResult>, UpdateBaseCommandHandler<T>>();
+        //    services.AddTransient<IRequestHandler<DeleteBaseCommand<T>, ResponseResult>, DeleteBaseCommandHandler<T>>();
+        //}
     }
 }
