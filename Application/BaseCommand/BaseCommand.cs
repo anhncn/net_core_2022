@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.BaseCommand
 {
-    public abstract class BaseCommand : IRequest<ResponseResultModel> { }
+    public interface IBaseCommand : IRequest<ResponseResultModel> { }
 
     public abstract class BaseCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand, ResponseResultModel>
-        where TCommand : BaseCommand
+        where TCommand : IBaseCommand
     {
         protected readonly IDbService<TEntity> DbService;
         public BaseCommandHandler(IDbService<TEntity> dbService) { DbService = dbService; }

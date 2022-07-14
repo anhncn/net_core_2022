@@ -5,8 +5,21 @@ using System.Threading.Tasks;
 
 namespace Application.BaseCommand
 {
-    public class UpdateBaseCommand<TEntity> : BaseExcuteCommand<TEntity> { }
-    public class UpdateBaseCommandHandler<TEntity> : BaseExcuteCommandHandler<TEntity, UpdateBaseCommand<TEntity>>
+    public class UpdateBaseCommand<TEntity> : IBaseCommand 
+    {
+        public TEntity Entity { get; set; }
+
+        private UpdateBaseCommand(TEntity entity)
+        {
+            Entity = entity;
+        }
+
+        public static UpdateBaseCommand<TEntity> Instance(TEntity entity)
+        {
+            return new UpdateBaseCommand<TEntity>(entity);
+        }
+    }
+    public class UpdateBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, UpdateBaseCommand<TEntity>>
     {
         public UpdateBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
         public override async Task<ResponseResultModel> Handle(UpdateBaseCommand<TEntity> request, CancellationToken cancellationToken)

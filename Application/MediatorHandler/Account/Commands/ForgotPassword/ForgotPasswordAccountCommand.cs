@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 {
-    public class ForgotPasswordAccountCommand : BaseCommand.BaseCommand
+    public class ForgotPasswordAccountCommand : BaseCommand.IBaseCommand
     {
         public string UserName { get; set; }
     }

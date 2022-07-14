@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.MediatorHandler.Account.Commands
 {
-    public class RegisterAccountCommand : BaseCommand.BaseCommand
+    public class RegisterAccountCommand : BaseCommand.IBaseCommand
     {
         public string UserName { get; set; }
         public string Password { get; set; }

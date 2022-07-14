@@ -4,8 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Application.BaseCommand
 {
-    public class DeleteBaseCommand<TEntity> : BaseExcuteCommand<TEntity> { }
-    public class DeleteBaseCommandHandler<TEntity> : BaseExcuteCommandHandler<TEntity, DeleteBaseCommand<TEntity>>
+    public class DeleteBaseCommand<TEntity> : IBaseCommand 
+    { 
+        public string Id { get; set; } 
+    }
+    public class DeleteBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, DeleteBaseCommand<TEntity>>
     {
         public DeleteBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
 

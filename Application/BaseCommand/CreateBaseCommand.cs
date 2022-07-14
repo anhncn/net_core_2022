@@ -5,9 +5,22 @@ using System.Threading.Tasks;
 
 namespace Application.BaseCommand
 {
-    public class CreateBaseCommand<TEntity> : BaseExcuteCommand<TEntity> { }
+    public class CreateBaseCommand<TEntity> : IBaseCommand
+    {
+        public TEntity Entity { get; set; }
 
-    public class CreateBaseCommandHandler<TEntity> : BaseExcuteCommandHandler<TEntity, CreateBaseCommand<TEntity>> 
+        private CreateBaseCommand(TEntity entity)
+        {
+            Entity = entity;
+        }
+
+        public static CreateBaseCommand<TEntity> Instance(TEntity entity)
+        {
+            return new CreateBaseCommand<TEntity>(entity);
+        }
+    }
+
+    public class CreateBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, CreateBaseCommand<TEntity>> 
     {
         public CreateBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
 

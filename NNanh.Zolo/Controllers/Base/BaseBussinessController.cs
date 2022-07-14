@@ -26,15 +26,15 @@ namespace NNanh.Zolo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResponseResultModel>> Create(CreateBaseCommand<TEntity> command)
+        public async Task<ActionResult<ResponseResultModel>> Create(TEntity entity)
         {
-            return await Mediator.Send(command);
+            return await Mediator.Send(CreateBaseCommand<TEntity>.Instance(entity));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ResponseResultModel>> Update(UpdateBaseCommand<TEntity> command)
+        public async Task<ActionResult<ResponseResultModel>> Update(TEntity entity)
         {
-            return await Mediator.Send(command);
+            return await Mediator.Send(UpdateBaseCommand<TEntity>.Instance(entity));
         }
 
         [HttpDelete]
