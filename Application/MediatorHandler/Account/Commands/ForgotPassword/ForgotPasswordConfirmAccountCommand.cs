@@ -1,6 +1,7 @@
 ﻿using Application.BaseCommand;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Model;
 
 namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 {
@@ -15,7 +16,7 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 
         public ForgotPasswordConfirmAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService) { }
 
-        public override Task<ResponseResult> Handle(ForgotPasswordConfirmAccountCommand request, CancellationToken cancellationToken)
+        public override Task<ResponseResultModel> Handle(ForgotPasswordConfirmAccountCommand request, CancellationToken cancellationToken)
         {
             return DbService.ForgotPasswordConfirm(request);
         }

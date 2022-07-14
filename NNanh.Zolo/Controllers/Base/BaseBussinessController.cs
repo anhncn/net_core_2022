@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.BaseCommand;
 using Application.Common.Interfaces.Application;
+using Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,19 +26,19 @@ namespace NNanh.Zolo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResponseResult>> Create(CreateBaseCommand<TEntity> command)
+        public async Task<ActionResult<ResponseResultModel>> Create(CreateBaseCommand<TEntity> command)
         {
             return await Mediator.Send(command);
         }
 
         [HttpPut]
-        public async Task<ActionResult<ResponseResult>> Update(UpdateBaseCommand<TEntity> command)
+        public async Task<ActionResult<ResponseResultModel>> Update(UpdateBaseCommand<TEntity> command)
         {
             return await Mediator.Send(command);
         }
 
         [HttpDelete]
-        public async Task<ActionResult<ResponseResult>> Delete(DeleteBaseCommand<TEntity> command)
+        public async Task<ActionResult<ResponseResultModel>> Delete(DeleteBaseCommand<TEntity> command)
         {
             return await Mediator.Send(command);
         }

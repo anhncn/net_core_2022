@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace NNanh.Zolo.Controllers
 {
+    [Route("api/rediss")]
     public class RedisController : ApiControllerBase
     {
         // https://www.dotnetcoban.com/2019/09/redis-in-asp-dotnet-core.html

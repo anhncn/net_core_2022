@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NNanh.Zolo.Controllers
 {
     //[Authorize]
+    [Route("api/users")]
     public class UsersController : BaseBussinessController<UserSql>
     {
         public UsersController()
@@ -25,12 +26,5 @@ namespace NNanh.Zolo.Controllers
             var userName = await AppService.CacheService.GetAsync<string>("UserName");
             return Ok(userName);
         }
-
-        [HttpGet("user-name")]
-        public IActionResult GetUserName()
-        {
-            return Ok(AppService.UserService.UserName);
-        }
-
     }
 }

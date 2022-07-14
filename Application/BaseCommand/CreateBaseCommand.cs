@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces.Services;
-using Domain.Common;
+using Domain.Model;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace Application.BaseCommand
     {
         public CreateBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
 
-        public override async Task<ResponseResult> Handle(CreateBaseCommand<TEntity> request, CancellationToken cancellationToken)
+        public override async Task<ResponseResultModel> Handle(CreateBaseCommand<TEntity> request, CancellationToken cancellationToken)
         {
             await DbService.AddAsync(request.Entity);
             await DbService.Context.SaveChangesAsync(cancellationToken);

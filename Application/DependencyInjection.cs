@@ -7,6 +7,7 @@ using Application.Service.Interface;
 using Application.ServiceBussiness;
 using Application.ServiceBussiness.Implement;
 using Domain.Common;
+using Domain.Model;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,7 +66,7 @@ namespace Application
         public static void AddCreateHandler(this IServiceCollection services, Type typeT)
         {
             var iRequest = typeof(CreateBaseCommand<>).MakeGenericType(typeT);
-            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResult));
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResultModel));
             var implementType = typeof(CreateBaseCommandHandler<>).MakeGenericType(typeT);
             services.AddTransient(serviceType, implementType);
         }
@@ -73,7 +74,7 @@ namespace Application
         public static void AddUpdateHandler(this IServiceCollection services, Type typeT)
         {
             var iRequest = typeof(UpdateBaseCommand<>).MakeGenericType(typeT);
-            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResult));
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResultModel));
             var implementType = typeof(UpdateBaseCommandHandler<>).MakeGenericType(typeT);
             services.AddTransient(serviceType, implementType);
         }
@@ -81,7 +82,7 @@ namespace Application
         public static void AddDeleteHandler(this IServiceCollection services, Type typeT)
         {
             var iRequest = typeof(DeleteBaseCommand<>).MakeGenericType(typeT);
-            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResult));
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(iRequest, typeof(ResponseResultModel));
             var implementType = typeof(DeleteBaseCommandHandler<>).MakeGenericType(typeT);
             services.AddTransient(serviceType, implementType);
         }

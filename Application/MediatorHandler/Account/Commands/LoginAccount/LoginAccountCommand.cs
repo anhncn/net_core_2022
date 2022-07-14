@@ -1,4 +1,4 @@
-﻿
+﻿using Domain.Model;
 using Application.BaseCommand;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace Application.MediatorHandler.Account.Commands
 
         public LoginAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService){}
 
-        public override Task<ResponseResult> Handle(LoginAccountCommand request, CancellationToken cancellationToken)
+        public override Task<ResponseResultModel> Handle(LoginAccountCommand request, CancellationToken cancellationToken)
         {
             return DbService.LoginAsync(request);
         }

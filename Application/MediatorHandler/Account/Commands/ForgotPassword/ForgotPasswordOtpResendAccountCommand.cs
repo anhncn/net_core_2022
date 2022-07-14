@@ -1,7 +1,5 @@
 ﻿using Application.BaseCommand;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Domain.Model;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +13,7 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 
         public ForgotPasswordOtpResendAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService) { }
 
-        public override Task<ResponseResult> Handle(ForgotPasswordOtpResendAccountCommand request, CancellationToken cancellationToken)
+        public override Task<ResponseResultModel> Handle(ForgotPasswordOtpResendAccountCommand request, CancellationToken cancellationToken)
         {
             return DbService.ForgotPasswordOtpResend(request);
         }

@@ -16,7 +16,7 @@ namespace Application.Service.Interface
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        Task<ResponseResult> LoginAsync(LoginAccountCommand account);
+        Task<ResponseResultModel> LoginAsync(LoginAccountCommand account);
 
         /// <summary>
         /// Kiểm tra thông tin truyền vào có rỗng hoặc null thì văng lỗi
@@ -25,7 +25,7 @@ namespace Application.Service.Interface
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        Task<ResponseResult> RegisterAsync(RegisterAccountCommand account);
+        Task<ResponseResultModel> RegisterAsync(RegisterAccountCommand account);
 
         /// <summary>
         /// kiểm tra tài khoản tồn tại ko
@@ -35,7 +35,7 @@ namespace Application.Service.Interface
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        Task<ResponseResult> ForgotPassword(ForgotPasswordAccountCommand account);
+        Task<ResponseResultModel> ForgotPassword(ForgotPasswordAccountCommand account);
 
         /// <summary>
         /// Kiểm tra userName
@@ -45,7 +45,7 @@ namespace Application.Service.Interface
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        Task<ResponseResult> ForgotPasswordConfirm(ForgotPasswordConfirmAccountCommand account);
+        Task<ResponseResultModel> ForgotPasswordConfirm(ForgotPasswordConfirmAccountCommand account);
 
         /// <summary>
         /// kiểm tra tài khoản tồn tại không
@@ -53,7 +53,7 @@ namespace Application.Service.Interface
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        Task<ResponseResult> ForgotPasswordOtpResend(ForgotPasswordOtpResendAccountCommand account);
+        Task<ResponseResultModel> ForgotPasswordOtpResend(ForgotPasswordOtpResendAccountCommand account);
 
         /// <summary>
         /// Kiểm tra mã sinh ngẫu nhiên
@@ -63,6 +63,6 @@ namespace Application.Service.Interface
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        Task<ResponseResult> ForgotPasswordChangePasswordAfterCofirmSuccess(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand account);
+        Task<ResponseResultModel> ForgotPasswordChangePasswordAfterCofirmSuccess(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand account);
     }
 }

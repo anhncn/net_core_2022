@@ -1,4 +1,5 @@
 ﻿using Application.BaseCommand;
+using Domain.Model;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
         private new Service.Interface.IAccountService DbService => base.DbService as Service.Interface.IAccountService;
         public ForgotPasswordAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService) { }
 
-        public override Task<ResponseResult> Handle(ForgotPasswordAccountCommand request, CancellationToken cancellationToken)
+        public override Task<ResponseResultModel> Handle(ForgotPasswordAccountCommand request, CancellationToken cancellationToken)
         {
             return DbService.ForgotPassword(request);
         }

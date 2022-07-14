@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces.Services;
-using Domain.Common;
+using Domain.Model;
 using System.Threading;
 using System.Threading.Tasks;
 namespace Application.BaseCommand
@@ -9,7 +9,7 @@ namespace Application.BaseCommand
     {
         public DeleteBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
 
-        public override async Task<ResponseResult> Handle(DeleteBaseCommand<TEntity> request, CancellationToken cancellationToken)
+        public override async Task<ResponseResultModel> Handle(DeleteBaseCommand<TEntity> request, CancellationToken cancellationToken)
         {
             await DbService.RemoveAsync(request.Id);
             await DbService.Context.SaveChangesAsync(cancellationToken);

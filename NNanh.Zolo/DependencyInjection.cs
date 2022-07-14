@@ -22,12 +22,12 @@ namespace NNanh.Zolo
         {
             services.AddAuthenJwtBearer(configuration);
 
-            //services
-            //    .AddHealthChecks()
-            //    .AddCheck<HealthCheckService>("health_check_radom")
-            //    .AddRedis(configuration.Get<ApplicationSetting>().ConnectionStrings.Redis)
-            //    .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
-            //services.AddHealthChecksUI().AddInMemoryStorage();
+            services
+                .AddHealthChecks()
+                .AddCheck<HealthCheckService>("health_check_radom")
+                .AddRedis(configuration.Get<ApplicationSetting>().ConnectionStrings.Redis)
+                .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
+            services.AddHealthChecksUI().AddInMemoryStorage();
 
             services.AddSwaggerGen();
             services.AddSwaggerGen(options =>

@@ -1,4 +1,5 @@
 ﻿using Application.BaseCommand;
+using Domain.Model;
 
 namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 {
@@ -16,7 +17,7 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 
         public ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService){}
 
-        public override System.Threading.Tasks.Task<ResponseResult> Handle(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand request, System.Threading.CancellationToken cancellationToken)
+        public override System.Threading.Tasks.Task<ResponseResultModel> Handle(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand request, System.Threading.CancellationToken cancellationToken)
         {
             return DbService.ForgotPasswordChangePasswordAfterCofirmSuccess(request);
         }

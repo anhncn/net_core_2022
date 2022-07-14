@@ -39,9 +39,12 @@ namespace NNanh.Zolo
             // binding configure vào ApplicationSetting
             services.Configure<ApplicationSetting>(Configuration);
 
+
+            // Json Serialize Policy
             services.AddControllersWithViews().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.AllowTrailingCommas = true;
             });
 
             services.AddHttpContextAccessor();
@@ -78,12 +81,11 @@ namespace NNanh.Zolo
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                //endpoints.MapHealthChecksUI();
-
-                //endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                //{
-                //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                //});
+                endpoints.MapHealthChecksUI();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
 
                 // Communication with gRPC endpoints must be made through a gRPC client.
                 // To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909

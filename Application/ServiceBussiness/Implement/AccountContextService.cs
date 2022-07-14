@@ -1,4 +1,4 @@
-﻿using Application.BaseCommand;
+﻿using Domain.Model;
 using Application.Common.Interfaces.Application;
 using Application.Common.Interfaces.Infrastructure;
 using Application.Common.Interfaces.Services;
@@ -16,12 +16,13 @@ namespace Application.ServiceBussiness.Implement
 {
     public class AccountContextService : DbService<Account>, IAccountService
     {
-
         private const int MIN_SECONDS_TIME_RESEND_OTP = 60;
 
         private readonly ITokenAuthService _tokenService;
         private readonly IOtpService _otpService;
+#pragma warning disable IDE0052 // Remove unread private members
         private readonly IAppService _appService;
+#pragma warning restore IDE0052 // Remove unread private members
 
         public AccountContextService(
             IApplicationDbContext context,
@@ -36,14 +37,14 @@ namespace Application.ServiceBussiness.Implement
         }
         #region Login
 
-        public async Task<ResponseResult> LoginAsync(LoginAccountCommand account)
+        public async Task<ResponseResultModel> LoginAsync(LoginAccountCommand account)
         {
             if (!await ExistAccount(account.UserName, account.Password))
             {
                 throw new Exception("Wrong UserName or Password!");
             }
 
-            return ResponseResult.Instance(_tokenService.Generate(account.UserName));
+            return ResponseResultModel.Instance(_tokenService.Generate(account.UserName));
         }
 
         private Task<bool> ExistAccount(string userName, string password)
@@ -59,7 +60,7 @@ namespace Application.ServiceBussiness.Implement
 
         #region Register
 
-        public async Task<ResponseResult> RegisterAsync(RegisterAccountCommand account)
+        public async Task<ResponseResultModel> RegisterAsync(RegisterAccountCommand account)
         {
             if (account == null) throw new ArgumentNullException(nameof(account));
             if (string.IsNullOrEmpty(account.UserName)) throw new ArgumentNullException(nameof(account.UserName));
@@ -77,7 +78,7 @@ namespace Application.ServiceBussiness.Implement
 
             var result = await Context.SaveChangesAsync(new System.Threading.CancellationToken());
 
-            return ResponseResult.Instance(result);
+            return ResponseResultModel.Instance(result);
         }
 
         private Task<bool> ExistUserName(string userName)
@@ -96,26 +97,26 @@ namespace Application.ServiceBussiness.Implement
 
         #region ForgotPassword
 
-        public async Task<ResponseResult> ForgotPassword(ForgotPasswordAccountCommand account)
+        public async Task<ResponseResultModel> ForgotPassword(ForgotPasswordAccountCommand account)
         {
             if (!await ExistUserName(account.UserName)) throw new Exception($"UserName {account.UserName} isn't existed!");
 
             await _otpService.SendOTP(GetKeyOTPForgotPassword(account.UserName), new Domain.Common.OTP.OTPHelper() { Type = Domain.Enumerations.OTPSendType.Logging });
 
-            return ResponseResult.Instance($"Đã gửi mã OTP cho KH {account.UserName}, kiểm tra hộp thư hay điện thoại của bạn!");
+            return ResponseResultModel.Instance($"Đã gửi mã OTP cho KH {account.UserName}, kiểm tra hộp thư hay điện thoại của bạn!");
         }
 
-        public async Task<ResponseResult> ForgotPasswordConfirm(ForgotPasswordConfirmAccountCommand account)
+        public async Task<ResponseResultModel> ForgotPasswordConfirm(ForgotPasswordConfirmAccountCommand account)
         {
             if(!await _otpService.CheckOTP(GetKeyOTPForgotPassword(account.UserName), account.OTPValue))
             {
                 throw new Exception("Mã OTP không chính xác!");
             }
 
-            return ResponseResult.Instance(new { Success = true, Message = $"Kiểm tra mã OTP Thành công!" });
+            return ResponseResultModel.Instance(new { Success = true, Message = $"Kiểm tra mã OTP Thành công!" });
         }
 
-        public async Task<ResponseResult> ForgotPasswordOtpResend(ForgotPasswordOtpResendAccountCommand account)
+        public async Task<ResponseResultModel> ForgotPasswordOtpResend(ForgotPasswordOtpResendAccountCommand account)
         {
             var helperSource = await _otpService.GetOTP(GetKeyOTPForgotPassword(account.UserName));
 
@@ -133,10 +134,10 @@ namespace Application.ServiceBussiness.Implement
 
             await _otpService.SendOTP(GetKeyOTPForgotPassword(account.UserName), helperSource);
 
-            return ResponseResult.Instance($"Đã gửi mã OTP cho KH {account.UserName}, kiểm tra hộp thư hay điện thoại của bạn!");
+            return ResponseResultModel.Instance($"Đã gửi mã OTP cho KH {account.UserName}, kiểm tra hộp thư hay điện thoại của bạn!");
         }
 
-        public async Task<ResponseResult> ForgotPasswordChangePasswordAfterCofirmSuccess(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand accountModel)
+        public async Task<ResponseResultModel> ForgotPasswordChangePasswordAfterCofirmSuccess(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand accountModel)
         {
             // Đoạn này tạm thời tận dụng lại OTP đã sinh từ lúc đầu, sai về nguyên tắc nhưng dùng tạm đã
             // Vì nếu dùng lại thì mã này sẽ hết hạn sớm gây nên việc user chưa kịp đổi pass đã expire-otp
@@ -157,7 +158,7 @@ namespace Application.ServiceBussiness.Implement
 
             await Context.SaveChangesAsync(new System.Threading.CancellationToken());
 
-            return ResponseResult.Instance($"Đổi mật khẩu thành công");
+            return ResponseResultModel.Instance($"Đổi mật khẩu thành công");
         }
 
         private string GetKeyOTPForgotPassword(string userName) => "ForgotPass_" + userName;
