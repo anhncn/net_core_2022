@@ -26,7 +26,7 @@ namespace Application.Service
                 return _dbSet;
             }
         }
-        public IApplicationDbContext Context { get { return _context; } }
+        public IApplicationDbContext Context => _context;
 
         public DbService(IApplicationDbContext context)
         {
