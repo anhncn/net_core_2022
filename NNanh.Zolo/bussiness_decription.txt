@@ -1,0 +1,40 @@
+﻿
++ Xây dưng ứng dụng học trực tuyến
++ 2 tác nhân chính là Giáo viên và học sinh sẽ tham gia
++ Tác nhân phụ sẽ là hiệu trưởng, Admin, Giáo viên chủ nhiệm
++ Tác nhân chung sẽ gồm hiệu trưởng, giáo viên chủ nhiệm, giáo viên bộ môn, học sinh
++ Sẽ có hệ thống các trường học nên cần chọn trường(phần này sẽ tạo ra 1 danh sách các trường)
++ Trường học gồm nhiều cấp cụ thể là mầm non(0), tiểu học(I), trung học(II), trung học phổ thông(III), lc 0-I, lc I-II, lc II-III, lc I-II-III;
++ Trong trường học sẽ gồm nhiều khối học ví dụ cấp 1 sẽ có 5 khối 1,2,3,4,5
++ Mỗi khối sẽ có nhiều lớp ví dụ khối 1 sẽ có lớp 1A, 1B, 1C, 1D, 1E,... 
++ Mỗi lớp sẽ có 1 gvcn
++ Phần mềm sẽ cho phép linh động chỗ tạo khối(cấp 1 ko chỉ tạo khối 1-5 mà có thể hơn tùy trường), lớp để custom cho thoải mái
++ Lớp học sẽ có các môn học được giáo viên bộ môn phân công vào dạy
++ ==> phần giáo viên bộ môn sẽ vào được các lớp học, giao bài môn đã chỉ định dạy cho học sinh
++ ==> học sinh sẽ vào được lớp học, sẽ thấy các môn học ở đó, mỗi môn học sẽ có các bài học, bài tập mà được giáo viên bộ môn phân chia
++ Về phần môn học sẽ được chia theo các môn (Toán, Lý, Hóa, Văn, Sử, Địa, Sinh học, Thể dục, Công nghệ)
++ Mỗi môn học sẽ có ở các khối mà được hiệu trưởng chia
++ Ví dụ môn Toán sẽ có từ khối 1-5 nhưng môn Hóa thì chỉ có ở khối 8-12
++ Môn học ở các khối thì cùng mã nhưng tên có thể sẽ khác nhau để phù hợp với khối
+	(ex: như môn tiếng việt sẽ có ở khối 1,2,3,4,5 nhưng sẽ chuyển tên thành ngữ văn ở khối 6,7,8,9)
++ Phân quyền. mọi user đều có thể có nhiều quyền, gvcn cũng có quyền là gvbm luôn hoặc hiệu trưởng
++ 1 trường chỉ có 1 hiệu trưởng
+
+
+_ Phần mềm sẽ có hệ thống phân quyền
+_ Admin sẽ là user đầu tiên tạo ra bằng lệnh script và ko thể đăng ký trong phần mềm
+_ Hiệu trưởng sẽ được Admin trao quyền khi gửi yêu cầu
+_ Hiệu trưởng có thể trao lại quyền hiệu trưởng cho user khác để giảm tải phần gửi yêu cầu cho admin
+_ Giáo viên chủ nhiệm sẽ được hiệu trưởng phân quyền thủ công hoặc các giáo viên sẽ yêu cầu quyền chủ nhiệm lên hiệu trưởng
+_ Giáo viên được tạo ra ở phần đăng ký user mặc định sẽ chỉ là user-guest sau khi được hiệu trưởng đồng ý cấp quyền mới có quyền gvcn
+_ Học sinh được tạo ra ở phần đăng ký user mặc định sẽ chỉ là user-guest, sau khi được gvcn đồng ý thì sẽ được thêm vào lớp
+_ Phần mềm cần có phần đăng ký giáo viên và học sinh
+
+_ Bảng trường học sẽ có id_trường, tên trường, cấp_học, bla,...(cấp có nhiều từ 1,2,3 đến liên cấp, mầm non)
+_ Bảng khối gồm id_khối, số_khối, cấp_học, id_trường, tên_khối(custom-nếu cần)
+_ Bảng lớp học gồm id_lớp, tên_lớp(tự viết nếu ko gen), id_khối, id_gvcn
+_ Bảng lớp học môn học: id_lớp, id_môn_học, id_gv_bm
+
+_ Bảng mã môn học chung: mã môn học, tên môn học chung -- hiệu trưởng ko có quyền tham gia bảng này
+_ Bảng mã môn học của từng trường clone về: id_môn_học, mã_môn, mã_môn_chung, id_trường -- sẽ thêm được ở bảng này với quyền hiệu trưởng
+_ Bảng môn học id_môn học, id_mã_môn_học, tên môn học(cus-tom theo khối), id_khối
