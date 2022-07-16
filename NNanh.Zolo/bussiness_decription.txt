@@ -1,11 +1,15 @@
-﻿
+﻿1) Bussiness:
 + Xây dưng ứng dụng học trực tuyến
 + 2 tác nhân chính là Giáo viên và học sinh sẽ tham gia
 + Tác nhân phụ sẽ là hiệu trưởng, Admin, Giáo viên chủ nhiệm
 + Tác nhân chung sẽ gồm hiệu trưởng, giáo viên chủ nhiệm, giáo viên bộ môn, học sinh
 + Sẽ có hệ thống các trường học nên cần chọn trường(phần này sẽ tạo ra 1 danh sách các trường)
-+ Trường học gồm nhiều cấp cụ thể là mầm non(0), tiểu học(I), trung học(II), trung học phổ thông(III), lc 0-I, lc I-II, lc II-III, lc I-II-III;
++ Trường học gồm nhiều cấp cụ thể là 
+	mầm non(0), tiểu học(I), trung học(II), 
+	trung học phổ thông(III), 
+	lc 0-I, lc I-II, lc II-III, lc I-II-III;
 + Trong trường học sẽ gồm nhiều khối học ví dụ cấp 1 sẽ có 5 khối 1,2,3,4,5
++ Trường học sẽ được chia theo cả năm học nào nữa, các lớp các môn cũng sẽ chia theo năm học
 + Mỗi khối sẽ có nhiều lớp ví dụ khối 1 sẽ có lớp 1A, 1B, 1C, 1D, 1E,... 
 + Mỗi lớp sẽ có 1 gvcn
 + Phần mềm sẽ cho phép linh động chỗ tạo khối(cấp 1 ko chỉ tạo khối 1-5 mà có thể hơn tùy trường), lớp để custom cho thoải mái
@@ -19,10 +23,19 @@
 	(ex: như môn tiếng việt sẽ có ở khối 1,2,3,4,5 nhưng sẽ chuyển tên thành ngữ văn ở khối 6,7,8,9)
 + Phân quyền. mọi user đều có thể có nhiều quyền, gvcn cũng có quyền là gvbm luôn hoặc hiệu trưởng
 + 1 trường chỉ có 1 hiệu trưởng
++ hiệu trưởng thì phân công giáo viên chủ nhiệm và giáo viên bộ môn vào từng lớp học
++ hiệu trưởng phân môn học từng khối, phân môn học đến từng lớp(do có môn học lớp này học lớp khác thì ko)
++ hiệu trưởng có toàn quyền data ở trường học
++ giáo viên chủ nhiệm sẽ phân phối học sinh vào từng lớp
++ phân quyền đầu API sẽ theo role
++ phân quyền dữ liệu, ví dụ thêm học sinh vào lớp 1A bởi giáo viên Nguyễn Văn A, 
+	thì giáo viên Nguyễn Văn B không được xóa học sinh này vẫn là chọc vào bảng đó nhưng sai người ko đc quyền
+	=>> cần role giáo viên chủ nhiệm và chủ nhiệm đúng lớp thì mới thay đổi được học sinh trong lớp.
 
-
+2) Develop:
 _ Phần mềm sẽ có hệ thống phân quyền
 _ Admin sẽ là user đầu tiên tạo ra bằng lệnh script và ko thể đăng ký trong phần mềm
+_ Phân quyền sẽ chia theo người nhưng ở trường và năm đó chứ ko phải hiệu trưởng có quyền ở mọi đơn vị và mọi năm học được
 _ Hiệu trưởng sẽ được Admin trao quyền khi gửi yêu cầu
 _ Hiệu trưởng có thể trao lại quyền hiệu trưởng cho user khác để giảm tải phần gửi yêu cầu cho admin
 _ Giáo viên chủ nhiệm sẽ được hiệu trưởng phân quyền thủ công hoặc các giáo viên sẽ yêu cầu quyền chủ nhiệm lên hiệu trưởng
@@ -30,7 +43,9 @@ _ Giáo viên được tạo ra ở phần đăng ký user mặc định sẽ ch
 _ Học sinh được tạo ra ở phần đăng ký user mặc định sẽ chỉ là user-guest, sau khi được gvcn đồng ý thì sẽ được thêm vào lớp
 _ Phần mềm cần có phần đăng ký giáo viên và học sinh
 
+
 _ Bảng trường học sẽ có id_trường, tên trường, cấp_học, bla,...(cấp có nhiều từ 1,2,3 đến liên cấp, mầm non)
+_ Bảng năm học (id, id_trường, năm bao nhiêu, tên năm học,)
 _ Bảng khối gồm id_khối, số_khối, cấp_học, id_trường, tên_khối(custom-nếu cần)
 _ Bảng lớp học gồm id_lớp, tên_lớp(tự viết nếu ko gen), id_khối, id_gvcn
 _ Bảng lớp học môn học: id_lớp, id_môn_học, id_gv_bm
@@ -38,3 +53,13 @@ _ Bảng lớp học môn học: id_lớp, id_môn_học, id_gv_bm
 _ Bảng mã môn học chung: mã môn học, tên môn học chung -- hiệu trưởng ko có quyền tham gia bảng này
 _ Bảng mã môn học của từng trường clone về: id_môn_học, mã_môn, mã_môn_chung, id_trường -- sẽ thêm được ở bảng này với quyền hiệu trưởng
 _ Bảng môn học id_môn học, id_mã_môn_học, tên môn học(cus-tom theo khối), id_khối
+
+_ Bảng người dùng bao gồm cả gv, hs đều chung user-id
+_ Bảng student-classroom liên kết học sinh với lớp học để dùng sau này nếu 1 hs ko chỉ ở 1 lớp
+
+_ Phân quyền theo role như thế nào:
+	Ex: Api HeadMaster/Teacher lấy danh sách giáo viên ==>> ai có quyền Hiệu trưởng ms dùng được, khi mất quyền sẽ ko xem đc nữa.
+_ Phân quyền theo tháo tác dữ liệu(thêm, sửa, xóa, lấy dữ liệu):
+	Ex: Api 
+_ Phân quyền theo can thiệp dữ liệu chi tiết:
+	Ex: Giáo viên A được thao tác nhưng giáo viên B thì ko do ko phải là giáo viên chủ nhiệm lớp A

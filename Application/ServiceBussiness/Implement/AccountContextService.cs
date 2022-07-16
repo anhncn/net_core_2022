@@ -72,6 +72,8 @@ namespace Application.ServiceBussiness.Implement
             {
                 UserName = account.UserName,
                 Password = _tokenService.HashPassword(account.Password),
+                FirstName = account.FirstName,
+                LastName = account.LastName
             };
 
             await AddAsync(entity);

@@ -15,6 +15,17 @@ namespace Infrastructure.DbContext.EntityFramework
         public DbSet<UserSql> User { get; set; }
         public DbSet<Account> Account { get; set; }
 
+        public virtual DbSet<AccountRole> AccountRole { get; set; }
+        public virtual DbSet<ClassRoom> ClassRoom { get; set; }
+        public virtual DbSet<Grade> Grade { get; set; }
+        public virtual DbSet<Organization> Organization { get; set; }
+        public virtual DbSet<RoleDefine> RoleDefine { get; set; }
+        public virtual DbSet<SchoolYear> SchoolYear { get; set; }
+        public virtual DbSet<SubjectClassSchool> SubjectClassSchool { get; set; }
+        public virtual DbSet<SubjectCommonDefine> SubjectCommonDefine { get; set; }
+        public virtual DbSet<SubjectGradeSchool> SubjectGradeSchool { get; set; }
+        public virtual DbSet<SubjectSchoolDefine> SubjectSchoolDefine { get; set; }
+
         public EntityframeWorkDbContext(Microsoft.Extensions.Options.IOptions<ApplicationSetting> options)
         {
             _appSetting = options.Value;
