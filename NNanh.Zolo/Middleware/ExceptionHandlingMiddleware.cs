@@ -1,4 +1,5 @@
 ﻿using Application.Common.Exceptions;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -52,6 +53,10 @@ namespace NNanh.Zolo.MiddleWare
             if (exception.GetType().Equals(typeof(ValidationException)))
             {
                 return StatusCodes.Status422UnprocessableEntity;
+            }
+            else if (exception.GetType().Equals(typeof(ForbiddenAccessException)))
+            {
+                return StatusCodes.Status403Forbidden;
             }
             else
             {

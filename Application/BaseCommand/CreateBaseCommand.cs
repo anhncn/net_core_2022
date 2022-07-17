@@ -14,7 +14,7 @@ namespace Application.BaseCommand
             Entity = entity;
         }
 
-        public static CreateBaseCommand<TEntity> Instance(TEntity entity)
+        public static CreateBaseCommand<TEntity> Instance(TEntity entity = default)
         {
             return new CreateBaseCommand<TEntity>(entity);
         }

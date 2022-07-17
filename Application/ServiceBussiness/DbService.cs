@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Services;
+using Application.Common.Mappings;
 using Domain.Common;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +24,7 @@ namespace Application.Service
 
         #region Created
 
-        public async Task<int> AddAsync<T>(T entity) where T : AuditableEntity
+        public async Task<int> AddAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             int result = 0;
 
@@ -31,7 +32,7 @@ namespace Application.Service
 
             if (await ValidateAdd(entity))
             {
-                result = await Context.Set<T>().AddAsync(entity);
+                result = await Context.Set<TEntity>().AddAsync(entity);
             }
 
             await AfterAdd(entity);
@@ -39,14 +40,14 @@ namespace Application.Service
             return result;
         }
          
-        public virtual Task<bool> ValidateAdd<T>(T entity) where T : AuditableEntity
+        public virtual Task<bool> ValidateAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.FromResult(true);
         }
 
-        public virtual Task BeforeAdd<T>(T entity) where T : AuditableEntity
+        public virtual Task BeforeAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
-            var props = typeof(T).GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(KeyAttribute)));
+            var props = typeof(TEntity).GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(KeyAttribute)));
             if (props.Count() == 1)
             {
                 if (props.First().PropertyType == typeof(string))
@@ -59,12 +60,12 @@ namespace Application.Service
                 }
             }
             entity.Created = DateTime.Now;
-            entity.CreatedBy = _userService.UserId;
+            entity.CreatedBy = _userService.UserName;
             entity.LastModified = DateTime.Now;
             return Task.CompletedTask;
         }
 
-        public virtual Task AfterAdd<T>(T entity) where T : AuditableEntity
+        public virtual Task AfterAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.CompletedTask;
         }
@@ -72,24 +73,37 @@ namespace Application.Service
         #endregion
 
 
-        public Task<bool> RemoveAsync<T>(string id) where T : AuditableEntity
+        public Task<bool> RemoveAsync<TEntity>(string id) where TEntity : AuditableEntity
         {
-            return Context.Set<T>().RemoveAsync(id);
+            return Context.Set<TEntity>().RemoveAsync(id);
         }
 
-        public IQueryable<T> AsQueryable<T>() where T : AuditableEntity
+        public IQueryable<TEntity> AsQueryable<TEntity>() where TEntity : AuditableEntity
         {
-            return Context.Set<T>().AsQueryable();
+            return Context.Set<TEntity>().AsQueryable();
         }
 
-        public Task<T> FindAsync<T>(string id) where T : AuditableEntity
+        public Task<TEntity> FindAsync<TEntity>(string id) where TEntity : AuditableEntity
         {
-            return Context.Set<T>().FindAsync(id);
+            return Context.Set<TEntity>().FindAsync(id);
         }
 
-        public Task<bool> UpdateAsync<T>(T entity) where T : AuditableEntity
+        public Task<bool> UpdateAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
-            return Context.Set<T>().UpdateAsync(entity);
+            return Context.Set<TEntity>().UpdateAsync(entity);
         }
+
+        public Task<PaginatedList<TEntity>> PaginatedList<TEntity>(BaseQueryCommand<TEntity> request) where TEntity : AuditableEntity
+        {
+            var paging = AsQueryable<TEntity>().PaginatedList(request.PageIndex, request.PageSize);
+
+            return Task.FromResult(paging);
+        }
+
+        public IQueryable<TEntity> Filter<TEntity>(IQueryable<TEntity> source)
+        {
+            return source;
+        }
+
     }
 }

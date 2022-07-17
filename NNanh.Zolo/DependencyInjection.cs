@@ -65,6 +65,7 @@ namespace NNanh.Zolo
             });
 
             services.AddScoped<ITokenAuthService, TokenAuthService>();
+            services.AddScoped<IIDentityService, IDentityService>();
             services.AddScoped<IUserService, UserService>();
 
             return services;

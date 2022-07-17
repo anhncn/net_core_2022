@@ -11,15 +11,18 @@ namespace Application.Common.Interfaces.Services
     public interface IDbService
     {
         IApplicationDbContext Context { get; }
-        Task<T> FindAsync<T>(string id) where T : AuditableEntity; 
+        Task<TEntity> FindAsync<TEntity>(string id) where TEntity : AuditableEntity; 
 
-        Task<int> AddAsync<T>(T entity) where T : AuditableEntity;
+        Task<int> AddAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity;
 
-        Task<bool> UpdateAsync<T>(T entity) where T : AuditableEntity;
+        Task<bool> UpdateAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity;
 
-        Task<bool> RemoveAsync<T>(string id) where T : AuditableEntity;
+        Task<bool> RemoveAsync<TEntity>(string id) where TEntity : AuditableEntity;
 
-        IQueryable<T> AsQueryable<T>() where T : AuditableEntity;
+        IQueryable<TEntity> AsQueryable<TEntity>() where TEntity : AuditableEntity;
+        Task<PaginatedList<TEntity>> PaginatedList<TEntity>(BaseQueryCommand<TEntity> request) where TEntity : AuditableEntity;
+
+        IQueryable<TEntity> Filter<TEntity>(IQueryable<TEntity> source);
 
     }
 }

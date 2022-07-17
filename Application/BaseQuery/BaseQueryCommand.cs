@@ -31,7 +31,7 @@ namespace Application
         public static PaginatedList<T> Create(IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = source.Count();
-            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
@@ -39,26 +39,24 @@ namespace Application
 
     public class BaseQueryCommand<T> : IRequest<PaginatedList<T>>
     {
-        public string Title { get; set; }
+        public IQueryable<T> _source;
+
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
+
     }
     public class BaseQueryCommandHandler<TEntity> : IRequestHandler<BaseQueryCommand<TEntity>, PaginatedList<TEntity>>
         where TEntity : Domain.Common.AuditableEntity
     {
-        private readonly IDbService _dbSerivce;
+        protected readonly IDbService DbSerivce;
         public BaseQueryCommandHandler(IDbService dbContextService)
         {
-            _dbSerivce = dbContextService;
+            DbSerivce = dbContextService;
         }
 
-        public async Task<PaginatedList<TEntity>> Handle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
+        public Task<PaginatedList<TEntity>> Handle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
         {
-            var paging = _dbSerivce.AsQueryable<TEntity>().Where(x => true).PaginatedList(request.PageIndex, request.PageSize);
-
-            await _dbSerivce.Context.SaveChangesAsync(cancellationToken);
-
-            return paging;
+            return DbSerivce.PaginatedList(request);
         }
     }
 

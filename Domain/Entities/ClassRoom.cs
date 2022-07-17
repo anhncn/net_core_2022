@@ -9,7 +9,7 @@ namespace Domain.Entities
     public partial class ClassRoom : Common.AuditableEntity
     {
         public Guid Id { get; set; }
-        public int? Name { get; set; }
+        public string Name { get; set; }
         public Guid GradeId { get; set; }
         public Guid? HomeTeacherId { get; set; }
     }

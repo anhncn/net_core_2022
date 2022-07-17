@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using Application.Common.Interfaces.WebUI;
+using Application.ServiceBussiness.Dictionary;
+using Domain.Exceptions;
+using MediatR;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -10,8 +13,37 @@ namespace Application.Common.Behaviours
     public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
+        private readonly IIDentityService _iIDentityService;
+        public AuthorizationBehaviour(IIDentityService iIDentityService)
+        {
+            _iIDentityService = iIDentityService;
+        }
+
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            if (AuthorizeCommand.RolesPolicy.ContainsKey(request.GetType()))
+            {
+                var authorized = false;
+
+                var roles = AuthorizeCommand.RolesPolicy[request.GetType()].Select(role => role + "");
+
+                foreach (var roleSource in await _iIDentityService.GetRoles())
+                {
+                    if (roles.Contains(roleSource))
+                    {
+                        authorized = true;
+                        break;
+                    }
+
+                }
+
+                // Must be a member of at least one role in roles
+                if (!authorized)
+                {
+                    throw new ForbiddenAccessException();
+                }
+
+            }
             //var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
 
             //if (authorizeAttributes.Any())

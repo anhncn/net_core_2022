@@ -10,7 +10,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public Guid OrganizationId { get; set; }
-        public int SchoolYear1 { get; set; }
+        public int YearStudy { get; set; }
         public string SchoolYearName { get; set; }
     }
 }
