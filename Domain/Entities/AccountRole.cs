@@ -11,5 +11,6 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         public string RoleDefineCode { get; set; }
         public Guid AccountId { get; set; }
+        public Guid SchoolYearId { get; set; }
     }
 }

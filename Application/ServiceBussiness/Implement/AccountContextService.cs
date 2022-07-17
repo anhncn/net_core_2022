@@ -5,7 +5,6 @@ using Application.Common.Interfaces.Services;
 using Application.Common.Interfaces.WebUI;
 using Application.MediatorHandler.Account.Commands;
 using Application.MediatorHandler.Account.Commands.ForgotPassword;
-using Application.Service;
 using Application.Service.Interface;
 using Domain.Entities;
 using System;
@@ -14,9 +13,11 @@ using System.Threading.Tasks;
 
 namespace Application.ServiceBussiness.Implement
 {
-    public class AccountContextService : DbService<Account>, IAccountService
+    public class AccountContextService : IAccountService
     {
         private const int MIN_SECONDS_TIME_RESEND_OTP = 60;
+
+        protected readonly IDbService DbService;
 
         private readonly ITokenAuthService _tokenService;
         private readonly IOtpService _otpService;
@@ -25,12 +26,13 @@ namespace Application.ServiceBussiness.Implement
 #pragma warning restore IDE0052 // Remove unread private members
 
         public AccountContextService(
-            IApplicationDbContext context,
+            IDbService dbService,
             ITokenAuthService tokenService,
             IAppService appService,
             IOtpService otpService
-            ) : base(context)
+            )
         {
+            DbService = dbService;
             _appService = appService;
             _tokenService = tokenService;
             _otpService = otpService;
@@ -39,21 +41,23 @@ namespace Application.ServiceBussiness.Implement
 
         public async Task<ResponseResultModel> LoginAsync(LoginAccountCommand account)
         {
-            if (!await ExistAccount(account.UserName, account.Password))
+            var accountResource = await FindAccount(account.UserName, account.Password);
+
+            if (accountResource == null)
             {
                 throw new Exception("Wrong UserName or Password!");
             }
 
-            return ResponseResultModel.Instance(_tokenService.Generate(account.UserName));
+            return ResponseResultModel.Instance(_tokenService.Generate(accountResource));
         }
 
-        private Task<bool> ExistAccount(string userName, string password)
+        private Task<Account> FindAccount(string userName, string password)
         {
             var hashPassword = _tokenService.HashPassword(password);
-            var findUser = Context.Set<Account>().AsQueryable()
+            var findUser = DbService.AsQueryable<Account>()
                 .FirstOrDefault(rec => rec.UserName == userName && rec.Password == hashPassword);
 
-            return Task.FromResult(findUser != null);
+            return Task.FromResult(findUser);
         }
 
         #endregion
@@ -76,9 +80,9 @@ namespace Application.ServiceBussiness.Implement
                 LastName = account.LastName
             };
 
-            await AddAsync(entity);
+            await DbService.AddAsync(entity);
 
-            var result = await Context.SaveChangesAsync(new System.Threading.CancellationToken());
+            var result = await DbService.Context.SaveChangesAsync(new System.Threading.CancellationToken());
 
             return ResponseResultModel.Instance(result);
         }
@@ -87,7 +91,7 @@ namespace Application.ServiceBussiness.Implement
         {
             if (string.IsNullOrEmpty(userName)) return Task.FromResult(false);
 
-            var findUser = Context.Set<Account>().AsQueryable()
+            var findUser = DbService.AsQueryable<Account>()
                 .FirstOrDefault(rec => rec.UserName == userName);
 
             if (findUser == null) return Task.FromResult(false);
@@ -110,7 +114,7 @@ namespace Application.ServiceBussiness.Implement
 
         public async Task<ResponseResultModel> ForgotPasswordConfirm(ForgotPasswordConfirmAccountCommand account)
         {
-            if(!await _otpService.CheckOTP(GetKeyOTPForgotPassword(account.UserName), account.OTPValue))
+            if (!await _otpService.CheckOTP(GetKeyOTPForgotPassword(account.UserName), account.OTPValue))
             {
                 throw new Exception("Mã OTP không chính xác!");
             }
@@ -150,15 +154,15 @@ namespace Application.ServiceBussiness.Implement
 
             if (!CheckPasswordRegex(accountModel.PasswordNew)) throw new Exception("Password not regex!");
 
-            if(accountModel.PasswordNew != accountModel.PasswordConfirm) throw new Exception("PasswordConfirm not match!");
+            if (accountModel.PasswordNew != accountModel.PasswordConfirm) throw new Exception("PasswordConfirm not match!");
 
-            var account = Context.Set<Account>().AsQueryable().FirstOrDefault(a => a.UserName == accountModel.UserName);
+            var account = DbService.AsQueryable<Account>().FirstOrDefault(a => a.UserName == accountModel.UserName);
 
             account.Password = _tokenService.HashPassword(accountModel.PasswordNew);
 
-            await UpdateAsync(account);
+            await DbService.UpdateAsync(account);
 
-            await Context.SaveChangesAsync(new System.Threading.CancellationToken());
+            await DbService.Context.SaveChangesAsync(new System.Threading.CancellationToken());
 
             return ResponseResultModel.Instance($"Đổi mật khẩu thành công");
         }

@@ -1,13 +1,10 @@
 ﻿using Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Common.Interfaces.WebUI
 {
     public interface ITokenAuthService
     {
-        JwtTokens Generate(string userName);
+        JwtTokens Generate(Domain.Entities.Account account);
 
         bool ComparePassword(string rawData, string hashString);
 

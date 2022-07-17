@@ -20,9 +20,10 @@ namespace Application.BaseCommand
         }
     }
 
-    public class CreateBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, CreateBaseCommand<TEntity>> 
+    public class CreateBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, CreateBaseCommand<TEntity>>
+        where TEntity : Domain.Common.AuditableEntity
     {
-        public CreateBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
+        public CreateBaseCommandHandler(IDbService dbService) : base(dbService) { }
 
         public override async Task<ResponseResultModel> Handle(CreateBaseCommand<TEntity> request, CancellationToken cancellationToken)
         {

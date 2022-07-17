@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces.Services;
 using Application.Common.Mappings;
-using Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -45,16 +44,17 @@ namespace Application
         public int PageSize { get; set; }
     }
     public class BaseQueryCommandHandler<TEntity> : IRequestHandler<BaseQueryCommand<TEntity>, PaginatedList<TEntity>>
+        where TEntity : Domain.Common.AuditableEntity
     {
-        private readonly IDbService<TEntity> _dbSerivce;
-        public BaseQueryCommandHandler(IDbService<TEntity> dbContextService)
+        private readonly IDbService _dbSerivce;
+        public BaseQueryCommandHandler(IDbService dbContextService)
         {
             _dbSerivce = dbContextService;
         }
 
         public async Task<PaginatedList<TEntity>> Handle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
         {
-            var paging = _dbSerivce.AsQueryable().Where(x => true).PaginatedList(request.PageIndex, request.PageSize);
+            var paging = _dbSerivce.AsQueryable<TEntity>().Where(x => true).PaginatedList(request.PageIndex, request.PageSize);
 
             await _dbSerivce.Context.SaveChangesAsync(cancellationToken);
 

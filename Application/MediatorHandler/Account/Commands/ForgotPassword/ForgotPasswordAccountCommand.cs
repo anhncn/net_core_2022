@@ -12,12 +12,12 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 
     public class ForgotPasswordAccountCommandHandler : BaseCommandHandler<Domain.Entities.Account, ForgotPasswordAccountCommand>
     {
-        private new Service.Interface.IAccountService DbService => base.DbService as Service.Interface.IAccountService;
-        public ForgotPasswordAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService) { }
+        private readonly Service.Interface.IAccountService _accountService;
+        public ForgotPasswordAccountCommandHandler(Service.Interface.IAccountService accountService) { _accountService = accountService; }
 
         public override Task<ResponseResultModel> Handle(ForgotPasswordAccountCommand request, CancellationToken cancellationToken)
         {
-            return DbService.ForgotPassword(request);
+            return _accountService.ForgotPassword(request);
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NNanh.Zolo.Controllers.BaseDefine
 {
     [Route("api/account-roles")]
+    [Authorize]
     public class AccountRolesController : BaseBussinessController<Domain.Entities.AccountRole>
     {
     }

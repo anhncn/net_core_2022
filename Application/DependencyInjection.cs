@@ -29,7 +29,7 @@ namespace Application
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
-            services.AddScoped(typeof(IDbService<>), typeof(DbService<>));
+            services.AddScoped<IDbService, DbService>();
             services.AddScoped<IAppService, AppService>();
 
             services.AddScoped<IAccountService, AccountContextService>();
@@ -41,7 +41,7 @@ namespace Application
 
         private static void AddRequestsHandler(this IServiceCollection services, Assembly assembly)
         {
-            if(assembly == null) throw new ArgumentNullException(nameof(assembly));
+            if (assembly == null) throw new ArgumentNullException(nameof(assembly));
 
             var types = assembly.GetExportedTypes().Where(t => t.BaseType == typeof(AuditableEntity));
 

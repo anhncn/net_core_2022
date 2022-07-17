@@ -20,7 +20,7 @@ namespace NNanh.Zolo.Services
         }
 
 
-        public JwtTokens Generate(string userName)
+        public JwtTokens Generate(Domain.Entities.Account account)
         {
             // Else we generate JSON Web Token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -29,7 +29,8 @@ namespace NNanh.Zolo.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, userName)
+                    new Claim(ClaimTypes.Name, account.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, account.Id + ""),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(_appService.ApplicationSetting.Jwt.TimeExpires),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)

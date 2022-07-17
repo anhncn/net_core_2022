@@ -13,13 +13,16 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 
     public class ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommandHandler : BaseCommandHandler<Domain.Entities.Account, ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand>
     {
-        private new Service.Interface.IAccountService DbService => base.DbService as Service.Interface.IAccountService;
+        private readonly Service.Interface.IAccountService _accountService;
 
-        public ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService){}
+        public ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommandHandler(Service.Interface.IAccountService accountService) 
+        { 
+            _accountService = accountService; 
+        }
 
         public override System.Threading.Tasks.Task<ResponseResultModel> Handle(ForgotPasswordChangePasswordAfterCofirmSuccessAccountCommand request, System.Threading.CancellationToken cancellationToken)
         {
-            return DbService.ForgotPasswordChangePasswordAfterCofirmSuccess(request);
+            return _accountService.ForgotPasswordChangePasswordAfterCofirmSuccess(request);
         }
     }
 }

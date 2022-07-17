@@ -16,12 +16,15 @@ namespace Application.MediatorHandler.Account.Commands
 
     public class RegisterAccountCommandHandler : BaseCommandHandler<Domain.Entities.Account, RegisterAccountCommand>
     {
-        private new Service.Interface.IAccountService DbService => base.DbService as Service.Interface.IAccountService;
-        public RegisterAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService) { }
+        private readonly Service.Interface.IAccountService _accountService;
+        public RegisterAccountCommandHandler(Service.Interface.IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
 
         public override Task<ResponseResultModel> Handle(RegisterAccountCommand request, CancellationToken cancellationToken)
         {
-            return DbService.RegisterAsync(request);
+            return _accountService.RegisterAsync(request);
         }
     }
 }

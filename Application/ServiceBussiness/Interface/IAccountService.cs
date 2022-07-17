@@ -1,14 +1,11 @@
-﻿using Application.BaseCommand;
-using Application.Common.Interfaces.Services;
-using Application.MediatorHandler.Account.Commands;
+﻿using Application.MediatorHandler.Account.Commands;
 using Application.MediatorHandler.Account.Commands.ForgotPassword;
-using Domain.Entities;
 using Domain.Model;
 using System.Threading.Tasks;
 
 namespace Application.Service.Interface
 {
-    public interface IAccountService : IDbService<Account>
+    public interface IAccountService
     {
         /// <summary>
         /// Kiểm tra tồn tại tài khoản không

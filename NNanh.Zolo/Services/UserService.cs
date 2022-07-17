@@ -28,7 +28,7 @@ namespace NNanh.Zolo.Services
             {
                 if (_httpContext.HttpContext != null)
                 {
-                    return _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    return _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
                 }
                 return string.Empty;
             }

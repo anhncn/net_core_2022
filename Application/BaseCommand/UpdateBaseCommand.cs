@@ -20,8 +20,9 @@ namespace Application.BaseCommand
         }
     }
     public class UpdateBaseCommandHandler<TEntity> : BaseCommandHandler<TEntity, UpdateBaseCommand<TEntity>>
+        where TEntity : Domain.Common.AuditableEntity
     {
-        public UpdateBaseCommandHandler(IDbService<TEntity> dbService) : base(dbService) { }
+        public UpdateBaseCommandHandler(IDbService dbService) : base(dbService) { }
         public override async Task<ResponseResultModel> Handle(UpdateBaseCommand<TEntity> request, CancellationToken cancellationToken)
         {
             await DbService.UpdateAsync(request.Entity);

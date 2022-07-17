@@ -9,13 +9,13 @@ namespace Application.MediatorHandler.Account.Commands.ForgotPassword
 
     public class ForgotPasswordOtpResendAccountCommandHandler : BaseCommandHandler<Domain.Entities.Account, ForgotPasswordOtpResendAccountCommand>
     {
-        private new Service.Interface.IAccountService DbService => base.DbService as Service.Interface.IAccountService;
+        private readonly Service.Interface.IAccountService _accountService;
 
-        public ForgotPasswordOtpResendAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService) { }
+        public ForgotPasswordOtpResendAccountCommandHandler(Service.Interface.IAccountService accountService) { _accountService = accountService; }
 
         public override Task<ResponseResultModel> Handle(ForgotPasswordOtpResendAccountCommand request, CancellationToken cancellationToken)
         {
-            return DbService.ForgotPasswordOtpResend(request);
+            return _accountService.ForgotPasswordOtpResend(request);
         }
     }
 }

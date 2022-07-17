@@ -14,13 +14,13 @@ namespace Application.MediatorHandler.Account.Commands
 
     public class LoginAccountCommandHandler : BaseCommandHandler<Domain.Entities.Account, LoginAccountCommand>
     {
-        private new Service.Interface.IAccountService DbService => base.DbService as Service.Interface.IAccountService;
+        private readonly Service.Interface.IAccountService _accountService;
 
-        public LoginAccountCommandHandler(Service.Interface.IAccountService dbService) : base(dbService){}
+        public LoginAccountCommandHandler(Service.Interface.IAccountService dbService) { _accountService = dbService; }
 
         public override Task<ResponseResultModel> Handle(LoginAccountCommand request, CancellationToken cancellationToken)
         {
-            return DbService.LoginAsync(request);
+            return _accountService.LoginAsync(request);
         }
     }
 
