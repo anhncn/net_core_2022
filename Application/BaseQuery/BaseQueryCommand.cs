@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces.Services;
-using Application.Common.Mappings;
+﻿using Application.Common.Interfaces.Application;
+using Application.Common.Interfaces.Services;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,19 @@ namespace Application
         public int PageIndex { get; }
         public int TotalPages { get; }
         public int TotalCount { get; }
+
+        public PaginatedList(IEnumerable<T> items, int pageIndex, int totalPages, int totalCount, bool active = false)
+        {
+            Items = items;
+            PageIndex = pageIndex;
+            TotalCount = totalCount;
+            TotalPages = totalPages;
+        }
+
+        public PaginatedList<TEntity> Cast<TEntity>()
+        {
+            return new PaginatedList<TEntity>(Items.Cast<TEntity>(), PageIndex, TotalPages, TotalCount, false);
+        }
 
         public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
@@ -37,25 +50,31 @@ namespace Application
         }
     }
 
-    public class BaseQueryCommand<T> : IRequest<PaginatedList<T>>
+    public partial class BaseQueryCommand<T> : IRequest<PaginatedList<T>>
     {
-        public IQueryable<T> _source;
-
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
 
     }
-    public class BaseQueryCommandHandler<TEntity> : IRequestHandler<BaseQueryCommand<TEntity>, PaginatedList<TEntity>>
+    public partial class BaseQueryCommandHandler<TEntity> : IRequestHandler<BaseQueryCommand<TEntity>, PaginatedList<TEntity>>
         where TEntity : Domain.Common.AuditableEntity
     {
         protected readonly IDbService DbSerivce;
-        public BaseQueryCommandHandler(IDbService dbContextService)
+        protected readonly IAppService AppService;
+
+        public BaseQueryCommandHandler(IDbService dbContextService, IAppService appService)
         {
             DbSerivce = dbContextService;
+            AppService = appService;
         }
 
         public Task<PaginatedList<TEntity>> Handle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
         {
+            if (CommandsHandler.ContainsKey(typeof(TEntity)))
+            {
+                return CommandsHandler[typeof(TEntity)].Invoke(request, cancellationToken);
+            }
+
             return DbSerivce.PaginatedList(request);
         }
     }
