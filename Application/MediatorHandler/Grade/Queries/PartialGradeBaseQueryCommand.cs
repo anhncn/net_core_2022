@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Application
 {
-    public partial class BaseQueryCommandHandler<TEntity> where TEntity : Domain.Common.AuditableEntity
+    public partial class BaseQueryCommandHandler<TEntity>
     {
-        public async Task<PaginatedList<TEntity>> GradeQueriesHandle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<TEntity>> GradeQueryCommandHandler(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)
         {
             var schoolYearId = await AppService.IDentityService.GetSchoolYearId();
             var source = DbSerivce.AsQueryable<Domain.Entities.Grade>()
