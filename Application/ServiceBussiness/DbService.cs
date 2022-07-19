@@ -88,10 +88,42 @@ namespace Application.Service
             return Context.Set<TEntity>().FindAsync(id);
         }
 
-        public Task<bool> UpdateAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        #region Update
+
+        public async Task<bool> UpdateAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
-            return Context.Set<TEntity>().UpdateAsync(entity);
+            bool result = true;
+
+            await BeforeUpdate(entity);
+
+            if (await ValidateUpdate(entity))
+            {
+                result = await Context.Set<TEntity>().UpdateAsync(entity);
+            }
+
+            await AfterUpdate(entity);
+
+            return result;
         }
+
+        public virtual Task<bool> ValidateUpdate<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        {
+            return Task.FromResult(true);
+        }
+
+        public virtual Task BeforeUpdate<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        {
+            entity.LastModified = DateTime.Now;
+            entity.LastModifiedBy = _userService.UserName;
+            return Task.CompletedTask;
+        }
+
+        public virtual Task AfterUpdate<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        {
+            return Task.CompletedTask;
+        }
+
+        #endregion
 
         public Task<PaginatedList<TEntity>> PaginatedList<TEntity>(BaseQueryCommand<TEntity> request) where TEntity : AuditableEntity
         {
@@ -99,11 +131,5 @@ namespace Application.Service
 
             return Task.FromResult(paging);
         }
-
-        public IQueryable<TEntity> Filter<TEntity>(IQueryable<TEntity> source)
-        {
-            return source;
-        }
-
     }
 }

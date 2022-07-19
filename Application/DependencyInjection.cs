@@ -6,6 +6,7 @@ using Application.Service;
 using Application.Service.Interface;
 using Application.ServiceBussiness;
 using Application.ServiceBussiness.Implement;
+using Application.ServiceBussiness.Interface;
 using Domain.Common;
 using Domain.Model;
 using FluentValidation;
@@ -35,6 +36,7 @@ namespace Application
             services.AddScoped<IAppService, AppService>();
 
             services.AddScoped<IAccountService, AccountContextService>();
+            services.AddScoped<IClassRoomService, ClassRoomContextService>();
 
             services.AddRequestsHandler(AppDomain.CurrentDomain.GetAssemblies().First(a => a.FullName.Contains(nameof(Domain))));
 

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Folder Include="Common\Security\" />
     <Folder Include="MediatorHandler\Account\Queries\" />
+    <Folder Include="MediatorHandler\ClassRoom\Queries\" />
     <Folder Include="MediatorHandler\Grade\Commands\" />
   </ItemGroup>
 

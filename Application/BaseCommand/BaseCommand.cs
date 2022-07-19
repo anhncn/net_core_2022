@@ -11,7 +11,7 @@ namespace Application.BaseCommand
     public abstract class BaseCommandHandler<TEntity, TCommand> : IRequestHandler<TCommand, ResponseResultModel>
         where TCommand : IBaseCommand
     {
-        protected readonly IDbService DbService;
+        protected IDbService DbService { get; }
 
         public BaseCommandHandler() { }
 
