@@ -24,28 +24,28 @@ namespace Application.Service
 
         #region Created
 
-        public async Task<int> AddAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        public async Task<int> CreateAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             int result = 0;
 
-            await BeforeAdd(entity);
+            await BeforeCreate(entity);
 
-            if (await ValidateAdd(entity))
+            if (await CreateValidator(entity))
             {
                 result = await Context.Set<TEntity>().AddAsync(entity);
             }
 
-            await AfterAdd(entity);
+            await AfterCreated(entity);
 
             return result;
         }
 
-        public virtual Task<bool> ValidateAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        public virtual Task<bool> CreateValidator<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.FromResult(true);
         }
 
-        public virtual Task BeforeAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        public virtual Task BeforeCreate<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             var props = typeof(TEntity).GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(KeyAttribute)));
             if (props.Count() == 1)
@@ -65,7 +65,7 @@ namespace Application.Service
             return Task.CompletedTask;
         }
 
-        public virtual Task AfterAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        public virtual Task AfterCreated<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.CompletedTask;
         }
@@ -96,17 +96,17 @@ namespace Application.Service
 
             await BeforeUpdate(entity);
 
-            if (await ValidateUpdate(entity))
+            if (await UpdateValidator(entity))
             {
                 result = await Context.Set<TEntity>().UpdateAsync(entity);
             }
 
-            await AfterUpdate(entity);
+            await AfterUpdated(entity);
 
             return result;
         }
 
-        public virtual Task<bool> ValidateUpdate<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        public virtual Task<bool> UpdateValidator<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.FromResult(true);
         }
@@ -118,7 +118,7 @@ namespace Application.Service
             return Task.CompletedTask;
         }
 
-        public virtual Task AfterUpdate<TEntity>(TEntity entity) where TEntity : AuditableEntity
+        public virtual Task AfterUpdated<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.CompletedTask;
         }

@@ -26,7 +26,7 @@ namespace Application.Common.Interfaces.Services
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<int> AddAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity;
+        Task<int> CreateAsync<TEntity>(TEntity entity) where TEntity : AuditableEntity;
 
         /// <summary>
         /// Cập nhật

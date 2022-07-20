@@ -73,7 +73,7 @@ namespace Application.ServiceBussiness.Implement
                 LastName = account.LastName
             };
 
-            await DbService.AddAsync(entity);
+            await DbService.CreateAsync(entity);
 
             var result = await DbService.Context.SaveChangesAsync(new System.Threading.CancellationToken());
 

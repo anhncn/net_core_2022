@@ -27,7 +27,7 @@ namespace Application.BaseCommand
 
         public override async Task<ResponseResultModel> Handle(CreateBaseCommand<TEntity> request, CancellationToken cancellationToken)
         {
-            await DbService.AddAsync(request.Entity);
+            await DbService.CreateAsync(request.Entity);
             await DbService.Context.SaveChangesAsync(cancellationToken);
             return default;
         }
