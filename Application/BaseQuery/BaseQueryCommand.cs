@@ -59,18 +59,13 @@ namespace Application
     public partial class BaseQueryCommandHandler<TEntity> : IRequestHandler<BaseQueryCommand<TEntity>, PaginatedList<TEntity>>
         where TEntity : Domain.Common.AuditableEntity
     {
-
-        private readonly IAppService _appService;
-
-        private readonly IDbService _dbSerivce;
-
-        protected IDbService DbSerivce => _dbSerivce;
-        protected IAppService AppService => _appService;
+        protected IDbService DbSerivce { get; }
+        protected IAppService AppService { get; }
 
         public BaseQueryCommandHandler(IDbService dbService, IAppService appService)
         {
-            _dbSerivce = dbService;
-            _appService = appService;
+            DbSerivce = dbService;
+            AppService = appService;
         }
 
         public Task<PaginatedList<TEntity>> Handle(BaseQueryCommand<TEntity> request, CancellationToken cancellationToken)

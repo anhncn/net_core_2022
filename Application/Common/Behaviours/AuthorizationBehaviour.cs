@@ -13,10 +13,10 @@ namespace Application.Common.Behaviours
     public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        private readonly IIDentityService _iIDentityService;
+        private IIDentityService IDentityService { get; }
         public AuthorizationBehaviour(IIDentityService iIDentityService)
         {
-            _iIDentityService = iIDentityService;
+            IDentityService = iIDentityService;
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -27,7 +27,7 @@ namespace Application.Common.Behaviours
 
                 var roles = AuthorizeCommand.RolesPolicy[request.GetType()].Select(role => role + "");
 
-                foreach (var roleSource in await _iIDentityService.GetRoles())
+                foreach (var roleSource in await IDentityService.GetRoles())
                 {
                     if (roles.Contains(roleSource))
                     {
