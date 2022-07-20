@@ -3,6 +3,7 @@ using Application.Common.Interfaces.Services;
 using Application.Common.Mappings;
 using Domain.Common;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,15 +12,14 @@ namespace Application.Service
 {
     public class DbService : IDbService
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IUserService _userService;
+        private IUserService UserService { get; }
 
-        public IApplicationDbContext Context => _context;
+        public IApplicationDbContext Context { get; }
 
         public DbService(IApplicationDbContext context, IUserService userService)
         {
-            _context = context;
-            _userService = userService;
+            Context = context;
+            UserService = userService;
         }
 
         #region Created
@@ -39,7 +39,7 @@ namespace Application.Service
 
             return result;
         }
-         
+
         public virtual Task<bool> ValidateAdd<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             return Task.FromResult(true);
@@ -60,7 +60,7 @@ namespace Application.Service
                 }
             }
             entity.Created = DateTime.Now;
-            entity.CreatedBy = _userService.UserName;
+            entity.CreatedBy = UserService.UserName;
             entity.LastModified = DateTime.Now;
             return Task.CompletedTask;
         }
@@ -114,7 +114,7 @@ namespace Application.Service
         public virtual Task BeforeUpdate<TEntity>(TEntity entity) where TEntity : AuditableEntity
         {
             entity.LastModified = DateTime.Now;
-            entity.LastModifiedBy = _userService.UserName;
+            entity.LastModifiedBy = UserService.UserName;
             return Task.CompletedTask;
         }
 

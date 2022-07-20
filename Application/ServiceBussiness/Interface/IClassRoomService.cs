@@ -6,11 +6,11 @@ namespace Application.ServiceBussiness.Interface
 {
     public interface IClassRoomService
     {
+
         /// <summary>
-        /// Kiểm tra tồn tại tài khoản không
-        /// Nếu tồn tại thì trả về token
+        /// Đặt quyền giáo viên chủ nhiệm
         /// </summary>
-        /// <param name="account"></param>
+        /// <param name="command"></param>
         /// <returns></returns>
         Task<ResponseResultModel> SetHomeRoomTeacher(UpdateHomeRoomTeacherClassRoomCommand command);
         /// <summary>
