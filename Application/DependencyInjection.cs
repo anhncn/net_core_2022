@@ -33,6 +33,7 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             services.AddScoped<IDbService, DbService>();
+            services.AddScoped<DbProcessService, DbProcessService>();
             services.AddScoped<IAppService, AppService>();
 
             services.AddScoped<IAccountService, AccountContextService>();
