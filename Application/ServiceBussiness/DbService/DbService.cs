@@ -58,7 +58,7 @@ namespace Application.Service
                 }
             }
             entity.Created = DateTime.Now;
-            entity.CreatedBy = UserService.UserName;
+            entity.CreatedBy = UserService.UserId;
             entity.LastModified = DateTime.Now;
             return Task.CompletedTask;
         }
