@@ -39,9 +39,9 @@ namespace NNanh.Zolo.Controllers
         }
 
         [HttpDelete]
-        public virtual async Task<ActionResult<ResponseResultModel>> Delete(DeleteBaseCommand<TEntity> command)
+        public virtual async Task<ActionResult<ResponseResultModel>> Delete(string id)
         {
-            return await Mediator.Send(command);
+            return await Mediator.Send(DeleteBaseCommand<TEntity>.Instance(id));
         }
     }
 }

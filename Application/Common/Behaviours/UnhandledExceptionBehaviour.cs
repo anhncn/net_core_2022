@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Common.Interfaces.Services;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace Application.Common.Behaviours
     public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
         where TRequest : IRequest<TResponse>
     {
-        private readonly ILogger<TRequest> _logger;
+        private readonly ILogService _logger;
 
-        public UnhandledExceptionBehaviour(ILogger<TRequest> logger)
+        public UnhandledExceptionBehaviour(ILogService logger)
         {
             _logger = logger;
         }
@@ -28,7 +29,7 @@ namespace Application.Common.Behaviours
             {
                 var requestName = typeof(TRequest).Name;
 
-                _logger.LogError(ex, "CleanArchitecture Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+                _logger.Error(ex, $"CleanArchitecture Request: Unhandled Exception for Request {requestName} {request}");
 
                 throw;
             }

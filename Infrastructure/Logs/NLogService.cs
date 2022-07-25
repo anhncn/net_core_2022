@@ -6,26 +6,21 @@ namespace Infrastructure.Logs
 {
     public class NLogService : ILogService
     {
-        private readonly ILogger<NLogService> logger;
+        private readonly ILogger<NLogService> _logger;
 
         public NLogService(ILogger<NLogService> logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
-        public void Error(string message)
+        public void Error(Exception exception, string message = "")
         {
-            logger.LogError(message);
-        }
-
-        public void Error(Exception exception)
-        {
-            logger.LogError(1, exception, message: "");
+            _logger.LogError(0, exception, message ?? exception.Message);
         }
 
         public void Info(string message)
         {
-            logger.LogInformation(message);
+            _logger.LogInformation(message);
         }
     }
 }

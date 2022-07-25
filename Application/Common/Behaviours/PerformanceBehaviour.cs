@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Common.Interfaces.Services;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading;
@@ -10,10 +11,10 @@ namespace Application.Common.Behaviours
         where TRequest : IRequest<TResponse>
     {
         private readonly Stopwatch _timer;
-        private readonly ILogger<TRequest> _logger;
+        private readonly ILogService _logger;
 
         public PerformanceBehaviour(
-            ILogger<TRequest> logger)
+            ILogService logger)
         {
             _timer = new Stopwatch();
 

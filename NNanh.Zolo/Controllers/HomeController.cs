@@ -1,18 +1,12 @@
 ﻿using Application;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace NNanh.Zolo.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
-
-        public HomeController()
-        {
-            //_logger = logger;
-        }
+        public HomeController() { }
 
         public IActionResult Index()
         {
