@@ -24,7 +24,11 @@ namespace NNanh.Zolo.Services
         public Task<IEnumerable<string>> GetRoles()
         {
             Guid.TryParse(_userService.UserId, out Guid userId);
+            return GetRolesByUserId(userId);
+        }
 
+        public Task<IEnumerable<string>> GetRolesByUserId(Guid userId)
+        {
             var roles = _dbService.AsQueryable<AccountRole>()
                 .Where(item => item.AccountId == userId)
                 .Select(o => o.RoleDefineCode).AsEnumerable();

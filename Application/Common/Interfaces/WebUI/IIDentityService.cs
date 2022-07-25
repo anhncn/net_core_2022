@@ -7,6 +7,9 @@ namespace Application.Common.Interfaces.WebUI
 {
     public interface IIDentityService 
     {
+
+        Task<IEnumerable<string>> GetRolesByUserId(Guid userId);
+
         Task<IEnumerable<string>> GetRoles();
 
         Task<Guid> GetSchoolYearId();

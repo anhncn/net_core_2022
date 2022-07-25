@@ -7,7 +7,7 @@ namespace NNanh.Zolo.Controllers.BaseDefine
     public class ClassRoomsController : BaseBussinessController<Domain.Entities.ClassRoom>
     {
 
-        [HttpPost("{id}/teacher-id/{teacherId}")]
+        [HttpPut("{id}/teacher-id/{teacherId}")]
         public async System.Threading.Tasks.Task<ActionResult<Domain.Model.ResponseResultModel>> SetHomeRoomTeacher(string id, string teacherId)
         {
             var request = new UpdateHomeRoomTeacherClassRoomCommand()
@@ -18,7 +18,7 @@ namespace NNanh.Zolo.Controllers.BaseDefine
             return await Mediator.Send(request);
         }
 
-        [HttpPost("{id}/class-name/{className}")]
+        [HttpPut("{id}/class-name/{className}")]
         public async System.Threading.Tasks.Task<ActionResult<Domain.Model.ResponseResultModel>> Rename(string id, string className)
         {
             var request = new RenameClassRoomCommand()
