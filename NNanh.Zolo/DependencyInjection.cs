@@ -27,7 +27,7 @@ namespace NNanh.Zolo
                 .AddHealthChecks()
                 .AddCheck<HealthCheckService>("health_check_radom")
                 .AddRedis(configuration.Get<ApplicationSetting>().ConnectionStrings.Redis)
-                .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.DefaultConnection);
+                .AddSqlServer(configuration.Get<ApplicationSetting>().ConnectionStrings.SqlServerDocker);
             services.AddHealthChecksUI().AddInMemoryStorage();
 
             services.AddSwaggerGen();
